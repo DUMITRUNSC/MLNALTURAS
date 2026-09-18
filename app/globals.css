@@ -1,0 +1,596 @@
+/**
+ * biome-ignore-all lint/complexity/noImportantStyles: los !important de este archivo son deliberados: anulan los estilos del navegador (autorrelleno, enlace de salto) y las animaciones cuando el sistema pide menos movimiento.
+ * biome-ignore-all lint/correctness/noUnknownProperty: view-transition-name es CSS estándar desde 2024; Biome todavía no lo reconoce.
+ * biome-ignore-all lint/correctness/noUnknownTypeSelector: los pseudoelementos ::view-transition-* son estándar; Biome los lee como selectores de tipo desconocidos.
+ */
+@import "tailwindcss";
+@source not "../_to_delete";
+
+/* ------------------------------------------------------------------ *
+ * Escala tipográfica. Seis pasos y ninguno más: antes había 22
+ * tamaños en las clases, con parejas casi iguales (15 y 15,5 · 13 y
+ * 13,5 · 10 y 10,5) que eran decisiones tomadas de una en una.
+ * Los titulares van aparte, con clamp(), porque son fluidos.
+ * ------------------------------------------------------------------ */
+@theme {
+  --text-t1: 11px; /* rótulos técnicos, cotas, legales */
+  --text-t2: 13px; /* pies de campo, notas al margen */
+  --text-t3: 15px; /* texto de apoyo, listas, enlaces */
+  --text-t4: 16px; /* cuerpo y contenido de los campos */
+  --text-t5: 18px; /* entradillas y teléfonos */
+  --text-t6: 22px; /* subtítulos */
+}
+
+/* Titulares: fluidos, cinco pasos, y tres tamaños de numeral.
+   Antes había 15 clamp() distintos, casi todos a un pelo unos de otros. */
+:root {
+  /* Los controles, la barra de scroll y el autorrelleno del navegador
+     siguen al sistema si no se dice lo contrario. */
+  color-scheme: light;
+  --d-1: clamp(1.35rem, 2.1vw, 1.95rem); /* títulos de bloque */
+  --d-2: clamp(1.75rem, 3vw, 2.7rem); /* h2 de sección */
+  --d-3: clamp(2.05rem, 4vw, 3.5rem); /* h1 de páginas de dentro */
+  --d-4: clamp(2.15rem, 4.6vw, 4.25rem); /* h1 de portada */
+  --d-5: clamp(2.05rem, 5.4vw, 4.85rem); /* el cierre */
+  --n-1: clamp(1.6rem, 2.6vw, 2.3rem); /* numeral de bloque */
+  --n-2: clamp(2.4rem, 4vw, 3.4rem); /* numeral de paso */
+  --n-3: clamp(3.4rem, 7vw, 6.5rem); /* numeral del proceso */
+}
+
+:root {
+  /* Azules de marca */
+  --blue: #0b5cf6;
+  --blue-dark: #0844c2;
+  --blue-soft: #e8f0fe;
+  --blue-light: #6fa3ff;
+  --blue-deep: #082f86;
+  --sky-1: #dceafb;
+  --sky-2: #f2f7fd;
+
+  /* Neutros */
+  --ink: #10131a;
+  --ink-soft: #2a303b;
+  --ink-muted: #5b6472;
+  --ink-faint: #68717f;
+  --rule: #c3cad5; /* filetes decorativos */
+  --blue-fill: #0b5cf6; /* relleno de botón: lleva texto blanco encima */
+  --zona-oscura: #10131a; /* la franja del proceso, oscura en los dos temas */
+  --campo-fondo: #f2f5fa; /* zona de relleno: tiene que verse sobre la lámina */
+  --campo-foco: #ffffff;
+  --velo-rgb: 246, 249, 253; /* el velo de la portada, del color del fondo */
+  --sombra-suave: 0 2px 10px rgba(16, 19, 26, 0.05);
+  --sombra-media: 0 6px 24px rgba(16, 19, 26, 0.09);
+  --sombra-panel: 0 10px 24px rgba(16, 19, 26, 0.12);
+  --cabecera: rgba(255, 255, 255, 0.8);
+  --cabecera-fija: rgba(255, 255, 255, 0.94);
+  --rojo: #b3321b;
+  --ancho-pagina: 1400px;
+  --halo-foco: rgba(11, 92, 246, 0.16);
+
+  /* Tinta sobre las franjas permanentemente oscuras (proceso y cierre).
+     Cuatro pasos, no diez alfas elegidas de una en una. */
+  --sobre-oscuro: rgba(255, 255, 255, 0.92);
+  --sobre-oscuro-suave: rgba(255, 255, 255, 0.7);
+  --sobre-oscuro-tenue: rgba(255, 255, 255, 0.55);
+  --sobre-oscuro-numero: rgba(255, 255, 255, 0.36);
+  --filete-oscuro: rgba(255, 255, 255, 0.16);
+  --sombra-texto: 0 1px 3px rgba(16, 19, 26, 0.45);
+  --aviso-fondo: rgba(179, 50, 27, 0.06);
+  --numero: #868fa0; /* números grandes: legibles, no invisibles */
+  --line: #e4e8ee;
+  --line-soft: #eff2f6;
+  --white: #ffffff;
+  --bg-soft: #f6f8fb;
+
+  /* Tipografía por rol */
+  --fuente-display: var(--font-display), "Archivo", system-ui, sans-serif;
+  --fuente-cuerpo: var(--font-cuerpo), system-ui, -apple-system, sans-serif;
+  --fuente-util: var(--font-util), ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ------------------------------------------------------------------ *
+ * Tema oscuro, EN RESERVA.
+ *
+ * La web se ve clara siempre, aunque el ordenador o el móvil estén en
+ * modo oscuro: el cliente de esta web es un administrador de fincas o un
+ * arquitecto que abre el enlace desde un correo, y ahí conviene controlar
+ * exactamente lo que ve.
+ *
+ * El tema oscuro está hecho y medido, pero solo se activa a mano: basta
+ * poner data-theme="dark" en el <html> de app/layout.tsx. Se redefinen
+ * SOLO los tokens, así que ningún componente sabe en qué tema está.
+ * Contrastes comprobados sobre #0E1116: ink 16,7 · ink-soft 12,2 ·
+ * ink-muted 7,5 · ink-faint 5,2 · azul 7,3 · rojo 8,2.
+ * ------------------------------------------------------------------ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --blue: #6aa0ff;
+  --blue-fill: #0b5cf6;
+  --blue-dark: #4d8bff;
+  --blue-soft: #16243d;
+  --blue-light: #93baff;
+  --blue-deep: #0b265e;
+  --sky-1: #121a26;
+  --sky-2: #0e1116;
+
+  --ink: #eef1f6;
+  --ink-soft: #c9d0da;
+  --ink-muted: #9aa4b2;
+  --ink-faint: #7c8797;
+  --rule: #3a4350;
+  --numero: #5e6877;
+  --line: #262d38;
+  --line-soft: #1b212a;
+  --white: #0e1116;
+  --bg-soft: #141920;
+
+  --zona-oscura: #05070a;
+  --campo-fondo: #171d27;
+  --campo-foco: #1c2430;
+  --velo-rgb: 10, 13, 18;
+  --rojo: #ff8a72;
+  --halo-foco: rgba(106, 160, 255, 0.26);
+
+  --sombra-suave: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --sombra-media: 0 8px 28px rgba(0, 0, 0, 0.6);
+  --sombra-panel: 0 12px 28px rgba(0, 0, 0, 0.65);
+  --cabecera: rgba(14, 17, 22, 0.82);
+  --cabecera-fija: rgba(14, 17, 22, 0.95);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--white);
+    color: var(--ink);
+    font-family: var(--fuente-cuerpo);
+    font-optical-sizing: auto;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  ::selection {
+    background-color: var(--blue);
+    color: #fff;
+  }
+
+  [id] {
+    scroll-margin-top: 104px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+summary::-webkit-details-marker,
+summary::marker {
+  display: none;
+  content: "";
+}
+
+/* El ancho de la página, en un solo sitio: estaba repetido 22 veces. */
+/* Transición sólo de color. La utilidad de Tailwind incluye outline-color,
+   así que el anillo de foco se desvanecía durante 150 ms en lugar de
+   aparecer de golpe; esto lo deja fuera y mantiene el resto igual. */
+.transicion-color {
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: var(--tw-ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+.pagina {
+  width: 100%;
+  max-width: var(--ancho-pagina);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 640px) {
+  .pagina {
+    padding-inline: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .pagina {
+    padding-inline: 3.5rem;
+  }
+}
+
+.eyebrow {
+  font-family: var(--fuente-util);
+  font-size: var(--text-t1);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.h-display {
+  font-family: var(--fuente-display);
+  font-weight: 700;
+  /* A tamaños grandes el interletraje tiene que cerrarse o el titular se
+     deshilacha: de -0,028 a -0,032 em. */
+  letter-spacing: -0.032em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+/* Rótulos técnicos: cotas, referencias de lámina, coordenadas, contadores.
+   En un plano nunca van en la misma letra que el título. */
+.tecnico {
+  font-family: var(--fuente-util);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-soft);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 0;
+}
+
+/* ------------------------------------------------------------------
+   Apariciones al hacer scroll.
+   Sin JavaScript todo se ve; el observador es quien decide esconderlo
+   antes de revelarlo, así la página nunca queda en blanco.
+   ------------------------------------------------------------------ */
+[data-reveal-listo] [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+[data-reveal-listo] [data-reveal].esta-dentro {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Máscara vertical para las fotografías.
+   El recorte va en el contenido, NO en el marco: si se recorta el marco, el
+   observador de intersecciones lo mide con área cero, nunca lo considera
+   visible y la foto se queda escondida para siempre. Recortando lo de dentro,
+   el marco conserva su caja, el observador lo ve entrar y el contenido se
+   destapa de arriba abajo. */
+[data-reveal-listo] [data-reveal-mask] > * {
+  clip-path: inset(0 0 100% 0);
+}
+
+[data-reveal-listo] [data-reveal-mask].esta-dentro > * {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-listo] [data-reveal],
+  [data-reveal-listo] [data-reveal-mask],
+  [data-reveal-listo] [data-reveal-mask] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Prosa de las páginas legales
+   ------------------------------------------------------------------ */
+.legal-prosa h2 {
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 2.75rem 0 0.9rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.legal-prosa h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.legal-prosa h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 1.75rem 0 0.5rem;
+}
+
+.legal-prosa p,
+.legal-prosa li {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--ink-muted);
+}
+
+.legal-prosa p {
+  margin-bottom: 1rem;
+}
+
+.legal-prosa ul {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.legal-prosa ul li {
+  position: relative;
+  padding-left: 1.15rem;
+  margin-bottom: 0.55rem;
+}
+
+.legal-prosa ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 6px;
+  height: 1px;
+  background: var(--blue);
+}
+
+.legal-prosa strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.legal-prosa a {
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.legal-prosa .dato {
+  display: grid;
+  grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+  gap: 0.5rem 1.5rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 15px;
+}
+
+.legal-prosa .dato dt {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding-top: 0.25rem;
+}
+
+.legal-prosa .dato dd {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.legal-prosa .pendiente {
+  color: var(--rojo);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .legal-prosa .dato {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Campos de formulario: nada del navegador se ve por defecto */
+.campo-mln::placeholder {
+  color: var(--ink-muted);
+  opacity: 1;
+}
+.campo-mln::-webkit-outer-spin-button,
+.campo-mln::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+.campo-mln {
+  appearance: none;
+  border-radius: 0;
+}
+/* el relleno automático del navegador pintaba el campo de amarillo */
+.campo-mln:-webkit-autofill,
+.campo-mln:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--ink);
+  box-shadow: 0 0 0 100px #fff inset;
+}
+
+/* El enlace de salto al contenido, con sus propios colores */
+.salto-contenido:focus {
+  background-color: var(--white) !important;
+  color: var(--ink) !important;
+  box-shadow: var(--sombra-media);
+}
+
+/* Cota sobre fotografía. La placa asegura el contraste sea cual sea la imagen
+   que haya debajo: con una foto totalmente blanca el fondo compuesto queda en
+   rgb(59,61,68) y el rótulo mantiene ~11:1. */
+.cota-foto {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.55rem 0.26rem;
+  color: rgba(255, 255, 255, 0.96);
+  background-color: rgba(16, 19, 26, 0.82);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+/* ------------------------------------------------------------------
+   TRANSICIONES DE VISTA ENTRE PÁGINAS
+   Toda la navegación de esta web son enlaces normales, documento a
+   documento, así que basta el at-rule del navegador: no hay una línea de
+   JavaScript detrás. La cabecera y el pie llevan nombre y por eso se
+   mantienen en su sitio mientras el contenido entra; donde no está
+   soportado no pasa absolutamente nada.
+   ------------------------------------------------------------------ */
+@view-transition {
+  navigation: auto;
+}
+
+header {
+  view-transition-name: cabecera;
+}
+main {
+  view-transition-name: contenido;
+}
+footer {
+  view-transition-name: pie;
+}
+
+::view-transition-old(contenido) {
+  animation: vt-sale 170ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(contenido) {
+  animation: vt-entra 280ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+@keyframes vt-sale {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+@keyframes vt-entra {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ------------------------------------------------------------------
+   DOS CAPAS DE PROFUNDIDAD EN LAS FOTOS
+   Diez píxeles de deriva a lo largo del recorrido, no un parallax de
+   portfolio: da volumen sin que se note el truco. Usa la línea de tiempo
+   del scroll del propio navegador —sin JavaScript— y solo donde está
+   soportada, para que un navegador viejo no se quede con la foto corrida.
+   ------------------------------------------------------------------ */
+@keyframes deriva {
+  from {
+    transform: translateY(-10px) scale(1.06);
+  }
+  to {
+    transform: translateY(10px) scale(1.06);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* La línea de tiempo la declara el MARCO, no la foto. El marco recorta
+       (overflow: hidden), y eso lo convierte en contenedor de scroll: una
+       `view()` anónima puesta en la <img> mediría su recorrido dentro del
+       marco, que no se mueve nunca, y se quedaba clavada a mitad. Nombrándola
+       aquí, el sujeto es el marco y el contenedor es la página. */
+    .foto-deriva {
+      view-timeline-name: --deriva;
+      view-timeline-axis: block;
+    }
+    .foto-deriva img {
+      /* Longhands y duración «auto» a propósito: con el atajo `animation` la
+         duración queda en 0 s y la foto se planta a mitad de recorrido. */
+      animation-name: deriva;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-duration: auto;
+      animation-timeline: --deriva;
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Movimiento, con cuentagotas.
+   Dos sitios, y por un motivo cada uno:
+
+   .entra-acuse  el formulario desaparece y en su lugar aparece la
+                 confirmación. Es el único momento emocional de la web y pasa
+                 una vez por visita: aquí sí vale gastar 320 ms.
+   ::details-content  el acordeón de preguntas abría de golpe. Con
+                 interpolate-size el navegador sabe interpolar hasta auto; los
+                 navegadores que no lo soportan siguen abriendo de golpe, que
+                 es exactamente como está hoy.
+   Los dos se apagan con «menos movimiento» (el bloque de arriba lo anula).
+   ------------------------------------------------------------------ */
+@keyframes entra-acuse {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.entra-acuse {
+  animation: entra-acuse 320ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entra-acuse {
+    animation: none;
+  }
+}
+
+details.acordeon-mln {
+  interpolate-size: allow-keywords;
+}
+details.acordeon-mln::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 240ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    content-visibility 240ms allow-discrete;
+}
+details.acordeon-mln[open]::details-content {
+  block-size: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  details.acordeon-mln::details-content {
+    transition: none;
+  }
+}
