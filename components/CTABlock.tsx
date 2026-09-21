@@ -13,7 +13,7 @@ export default function CTABlock() {
             style={{ backgroundColor: "var(--sobre-oscuro-tenue)" }}
           />
           <p className="eyebrow" style={{ color: "var(--sobre-oscuro-tenue)" }}>
-            Presupuesto cerrado por escrito · Madrid
+            Primera valoración clara · Madrid
           </p>
         </div>
 
@@ -22,7 +22,9 @@ export default function CTABlock() {
           style={{ fontSize: "var(--d-5)" }}
           data-reveal
         >
-          Hay problemas que empiezan muchos metros por encima de la acera.
+          Enséñanos el problema.
+          <br />
+          Te diremos cómo abordarlo.
         </h2>
 
         <div
@@ -34,7 +36,7 @@ export default function CTABlock() {
             className="group inline-flex items-center gap-4 min-h-11 py-2 text-white font-semibold"
             style={{ fontSize: "var(--d-1)" }}
           >
-            Cuéntanos qué ocurre
+            Enviar fotos del problema
             <ArrowRight
               size={22}
               aria-hidden

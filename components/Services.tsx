@@ -59,8 +59,9 @@ export default function Services() {
             className="text-t4 leading-relaxed max-w-xs lg:text-right"
             style={{ color: "var(--ink-muted)" }}
           >
-            Seis servicios, todos por encima de la primera planta. Cada uno
-            está señalado en la foto donde ocurre.
+            Desde una filtración puntual hasta la rehabilitación de una fachada.
+            Trabajamos por cuerda cuando permite intervenir con menos medios y
+            menos molestias.
           </p>
         </div>
 
@@ -231,14 +232,14 @@ export default function Services() {
           className="mt-12 text-t3 leading-relaxed max-w-[72ch]"
           style={{ color: "var(--ink-muted)" }}
         >
-          También: humedades por fachada, limpieza técnica de cristaleras y
-          placas solares, antigraffiti y mantenimiento preventivo por contrato.{" "}
+          También resolvemos humedades por fachada, limpieza técnica de
+          cristaleras y placas solares, antigraffiti y mantenimiento preventivo.{" "}
           <a
             href="#contacto"
             className="font-semibold"
             style={{ color: "var(--blue)" }}
           >
-            Cuéntanos qué ocurre →
+            ¿No ves tu problema? Envíanos unas fotos →
           </a>
         </p>
       </div>

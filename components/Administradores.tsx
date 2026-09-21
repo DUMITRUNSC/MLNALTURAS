@@ -1,18 +1,17 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { fotos } from "@/lib/fotos";
-import { site } from "@/lib/site";
 
 const puntos = [
   {
     num: "01",
     title: "Un interlocutor, no una centralita",
-    desc: "Hablas siempre con el técnico que ha visto el edificio. Si la junta pregunta, tienes la respuesta el mismo día.",
+    desc: "Hablas con el técnico que conoce el edificio y con el gerente que supervisa la intervención. Sin pasar por centralitas ni comerciales.",
   },
   {
     num: "02",
     title: "Presupuesto que aguanta la junta",
-    desc: `Visita técnica, alcance por escrito y precio cerrado en ${site.responseTime}. Sin modificados de última hora delante de los propietarios.`,
+    desc: "Visita técnica, alcance y precio por escrito. Cualquier cambio se comunica y aprueba antes de ejecutarlo.",
   },
   {
     num: "03",
@@ -64,8 +63,8 @@ export default function Administradores() {
               data-reveal
             >
               Gestionas varias fincas y el problema no suele ser la obra: es el
-              proveedor que no coge el teléfono, el presupuesto que se mueve a
-              mitad de obra y la documentación que nunca llega.
+              proveedor que no responde, el presupuesto que cambia a mitad de
+              obra y la documentación que se retrasa.
             </p>
 
             <ol>
@@ -111,7 +110,7 @@ export default function Administradores() {
               className="group mt-10 inline-flex items-center gap-3 min-h-11 py-2 text-t3 font-semibold"
               style={{ color: "var(--ink)" }}
             >
-              Solicitar visita para una finca
+              Pedir visita para una finca
               <ArrowRight
                 size={18}
                 style={{ color: "var(--blue)" }}
@@ -148,12 +147,9 @@ export default function Administradores() {
                 className="text-t3 leading-relaxed max-w-[46ch]"
                 style={{ color: "var(--ink-soft)" }}
               >
-                Los edificios de más de 30 años deben pasar la Inspección
-                Técnica de Edificios y renovarla cada 10. Si el informe sale
-                desfavorable, hay plazos cerrados para subsanar y el
-                ayuntamiento puede sancionar a la comunidad. Ahí es donde
-                entramos: ejecutamos lo que marca el informe y te damos la
-                documentación para acreditarlo.
+                Cuando una ITE detecta deficiencias, ejecutamos las actuaciones
+                que marca el informe y entregamos la documentación técnica y
+                fotográfica necesaria para acreditar la subsanación.
               </p>
             </div>
           </div>

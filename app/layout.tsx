@@ -24,7 +24,7 @@ const cuerpo = Inter({
 const utilidad = IBM_Plex_Mono({
   variable: "--font-util",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["500", "600"],
   display: "swap",
 });
 

@@ -5,12 +5,12 @@ const pasos = [
     num: "01",
     titulo: "Inspección",
     desc: "Subimos al edificio y vemos el problema real: fachada, accesos, cubierta y riesgos. Sin diagnóstico no hay precio.",
-    nota: `Respuesta en ${site.responseTime} laborables`,
+    nota: `Primera respuesta en ${site.responseTime} laborables`,
   },
   {
     num: "02",
     titulo: "Propuesta",
-    desc: "Alcance, sistema constructivo, materiales, plazo y precio cerrado por escrito. Preparado para llevarlo a la junta.",
+    desc: "Alcance, sistema constructivo, materiales, plazo y precio por escrito. Preparado para llevarlo a la junta.",
     nota: "Validez 30 días",
   },
   {
@@ -22,8 +22,8 @@ const pasos = [
   {
     num: "04",
     titulo: "Ejecución",
-    desc: "Equipo propio, materiales acordados y parte diario. Si aparece algo que cambia el alcance, se avisa antes.",
-    nota: "Sin modificados sorpresa",
+    desc: "Equipo supervisado por el gerente, materiales acordados y parte diario. Si aparece algo que cambia el alcance, se comunica antes.",
+    nota: "Cambios aprobados antes de ejecutar",
   },
   {
     num: "05",
@@ -47,7 +47,7 @@ export default function Process() {
             style={{ backgroundColor: "var(--sobre-oscuro-tenue)" }}
           />
           <p className="eyebrow" style={{ color: "var(--sobre-oscuro-tenue)" }}>
-            Cómo trabajamos · Presupuesto cerrado por escrito
+            Cómo trabajamos · Alcance y precio por escrito
           </p>
         </div>
 

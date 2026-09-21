@@ -35,9 +35,9 @@ export default function Zonas() {
               className="h-display"
               style={{ fontSize: "var(--d-2)", color: "var(--ink)" }}
             >
-              Trabajamos donde nos podemos
+              Madrid y Comunidad.
               <br />
-              plantar en media hora.
+              Para obras completas, llegamos más lejos.
             </h2>
           </div>
 
@@ -46,9 +46,9 @@ export default function Zonas() {
               className="text-t4 leading-[1.62] max-w-[52ch]"
               style={{ color: "var(--ink-muted)" }}
             >
-              No somos una franquicia con delegaciones. Salimos de Madrid, y si
-              el edificio está a más de una hora lo decimos en la primera
-              llamada en vez de encajarlo con calzador.
+              Trabajamos en Madrid capital y toda la Comunidad. Para
+              intervenciones de mayor alcance, valoramos otros destinos antes de
+              confirmar la visita.
             </p>
             {/* Este enlace estaba al final de las seis zonas y en móvil se
                 quedaba enterrado: aquí lo ve quien lee el titular. */}
@@ -57,7 +57,7 @@ export default function Zonas() {
               className="group inline-flex items-center gap-3 min-h-11 mt-5 text-t3 font-semibold transicion-color duration-150"
               style={{ color: "var(--blue)" }}
             >
-              ¿Tu edificio no está en la lista? Dinos dónde está
+              Dinos dónde está el edificio
               <ArrowRight
                 size={17}
                 aria-hidden
@@ -103,8 +103,8 @@ export default function Zonas() {
           className="mt-12 pt-8 border-t text-t3 leading-relaxed max-w-[62ch]"
           style={{ borderColor: "var(--line)", color: "var(--ink-muted)" }}
         >
-          Preferimos decir que no llegamos antes que aceptar la obra y darte
-          largas.
+          Antes de confirmar una visita, te decimos si podemos atenderla y en
+          qué condiciones.
         </p>
       </div>
     </section>

@@ -3,15 +3,15 @@ import { site } from "@/lib/site";
 export const faqs = [
   {
     q: "¿Cuánto cuesta una intervención en altura?",
-    a: "Depende de la superficie, el estado del soporte y el acceso. No damos precio sin ver el edificio: la visita técnica es gratuita y el presupuesto sale cerrado y por escrito, con desglose de materiales y mano de obra.",
+    a: "Depende de la superficie, el estado del soporte y el acceso. No damos precio sin ver el edificio: la visita técnica es gratuita y el presupuesto se entrega por escrito, con el alcance, los materiales y la mano de obra.",
   },
   {
     q: "¿Hace falta montar andamio?",
-    a: "En la mayoría de los casos no. Con técnicas de acceso por cuerda llegamos a fachadas, patios de luces y cubiertas sin estructura auxiliar, sin licencia de ocupación de vía pública y sin meses de obra en el patio. Cuando el andamio sí es la solución correcta, lo decimos.",
+    a: "No siempre. Cuando el edificio y el alcance lo permiten, el acceso por cuerda evita montar una estructura auxiliar y reduce la ocupación y las molestias. Si un andamio o una plataforma son la solución correcta, lo decimos antes de presupuestar.",
   },
   {
     q: "¿Cuánto tardáis en dar respuesta?",
-    a: `Respondemos en ${site.responseTime} laborables y concretamos visita. Si hay riesgo de desprendimiento o una filtración activa, intentamos verlo el mismo día.`,
+    a: `Damos una primera respuesta en ${site.responseTime} laborables y, con los datos del edificio, concretamos la visita. Si hay riesgo de desprendimiento o una filtración activa, llámanos para valorar la urgencia.`,
   },
   {
     q: "¿Trabajáis con seguro y personal certificado?",
@@ -23,19 +23,19 @@ export const faqs = [
   },
   {
     q: "¿Trabajáis solo en Madrid capital?",
-    a: "Madrid capital y toda la Comunidad. Para obras de cierto volumen nos desplazamos a otras provincias.",
+    a: "Trabajamos en Madrid capital y toda la Comunidad. Para intervenciones de mayor alcance, valoramos el desplazamiento a otras provincias antes de confirmar la visita.",
   },
   {
     q: "¿Cuánto tarda la rehabilitación de una fachada?",
-    a: "Depende de la superficie y del estado del soporte, pero una fachada de comunidad normal en Madrid se resuelve en dos o tres semanas de trabajo efectivo. Trabajando por cuerda no hay montaje ni desmontaje de andamio, que es lo que suele alargar estas obras una o dos semanas más y lo que mantiene el patio ocupado.",
+    a: "Depende de la superficie, el estado del soporte, el acceso y los trabajos necesarios. Después de visitar el edificio indicamos un plazo estimado y explicamos qué puede alterarlo antes de empezar.",
   },
   {
     q: "¿Quién paga la obra, la comunidad o el propietario?",
-    a: "Como regla general, los elementos comunes —fachada, patio, cubierta y medianera— los paga la comunidad según coeficiente de participación, salvo que los estatutos digan otra cosa; lo que está dentro de la vivienda corre por cuenta del propietario. Si en tu caso hay duda, lo vemos en la visita y lo dejamos por escrito en el presupuesto para que la junta lo apruebe sin discusión. No somos abogados: para un caso enredado, que lo confirme el administrador.",
+    a: "Depende de la naturaleza del elemento y de los estatutos de la comunidad. En el presupuesto dejamos claro qué zona y qué trabajos incluye la intervención; el reparto del coste debe confirmarlo la administración de la finca o el asesor correspondiente.",
   },
   {
     q: "¿Quién es el interlocutor durante la obra?",
-    a: "El mismo técnico que ha visitado el edificio y ha hecho el presupuesto. No hay centralita ni comercial intermedio: si la junta o la dirección facultativa pregunta, la respuesta llega el mismo día.",
+    a: "Tendrás un interlocutor que conoce el edificio y al gerente supervisando el proyecto. No hay una centralita ni un comercial intermedio entre el cliente y el equipo técnico.",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function Faq() {
               >
                 {site.phoneDisplay}
               </a>{" "}
-              y te la resolvemos en dos minutos.
+              y la vemos contigo.
             </p>
           </div>
 

@@ -58,28 +58,16 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* El claim manda, pero el h1 tiene que llevar también la palabra que
-              alguien escribe en Google: la tercera línea, más pequeña, va
-              dentro del mismo h1 para que cuente como encabezado. */}
           <h1 className="mb-8">
             <span
-              className="h-display block"
+              className="h-display block text-balance"
               style={{ fontSize: "var(--d-4)", color: "var(--ink)" }}
             >
-              El edificio no se arregla desde el suelo.
+              Tu edificio tiene un problema.
               <br />
-              <span style={{ color: "var(--blue)" }}>Bajamos nosotros.</span>
-            </span>
-            <span
-              className="flex items-baseline gap-3 mt-6 text-t5 font-semibold tracking-[-0.01em]"
-              style={{ color: "var(--ink-soft)" }}
-            >
-              <span
-                className="w-6 h-px shrink-0 translate-y-[-0.35em]"
-                style={{ backgroundColor: "var(--blue)" }}
-                aria-hidden
-              />
-              Trabajos verticales en Madrid: fachadas, cubiertas e ITE.
+              <span style={{ color: "var(--blue)" }}>
+                Nosotros sabemos cómo llegar.
+              </span>
             </span>
           </h1>
 
@@ -87,25 +75,21 @@ export default function Hero() {
             className="text-t4 lg:text-t5 leading-[1.62] max-w-[33rem] mb-11"
             style={{ color: "var(--ink-soft)" }}
           >
-            Rehabilitación de fachadas, cubiertas e impermeabilización por
-            cuerda. Sin andamio, sin ocupar la calle y sin cortar el portal.
-            Madrid y alrededores.
+            Reparamos fachadas, cubiertas y filtraciones en Madrid mediante
+            trabajos verticales cuando son la solución más eficiente.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
             <BotonEnlace href="#contacto">
-              Visita técnica gratuita
+              Cuéntanos qué ocurre
               <ArrowRight size={17} aria-hidden />
             </BotonEnlace>
-            {/* Antes decía «Soy arquitecto o ingeniero»: describía a la
-                persona en vez de decirle qué pasa al pulsar. Ahora lleva al
-                formulario con el perfil ya elegido. */}
             <BotonEnlace
-              href="/?perfil=arquitecto#contacto"
+              href="#contacto"
               variante="texto"
               className="group sm:justify-start"
             >
-              Mandar las especificaciones
+              Enviar fotos
               <ArrowRight
                 size={17}
                 style={{ color: "var(--blue)" }}

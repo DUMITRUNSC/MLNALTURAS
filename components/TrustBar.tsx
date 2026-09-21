@@ -1,13 +1,10 @@
 import { site } from "@/lib/site";
 
 const datos = [
-  // El oficio y la empresa, separados: ver la nota de lib/site.ts.
-  site.empresaDesde
-    ? `${site.añosOficio} años de oficio · empresa desde ${site.empresaDesde}`
-    : `${site.añosOficio} años de oficio en altura`,
-  "Madrid y alrededores",
-  `Presupuesto cerrado en ${site.responseTime}`,
-  "Sin andamio ni licencia de ocupación",
+  `${site.añosOficio} años de oficio en altura`,
+  "Supervisión directa del gerente",
+  `Primera respuesta en ${site.responseTime}`,
+  "Visita técnica gratuita",
 ];
 
 /** Franja técnica: solo texto, sin iconos ni cajas. */

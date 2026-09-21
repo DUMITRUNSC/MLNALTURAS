@@ -14,8 +14,12 @@ import { zonas } from "./zonas";
  * Mientras `empresaDesde` esté vacío, la web enseña solo los años de oficio y
  * no menciona la constitución: nada falso se publica por descuido.
  *
+ * Experiencia CONFIRMADA el 21/09/2026:
+ *   - 20 años de oficio del gerente
+ *   - 17 de esos años trabajando como autónomo antes de crear MLN
+ *   - el gerente supervisa personalmente todos los proyectos
+ *
  * ⚠️ PENDIENTE DE CONFIRMAR antes de publicar:
- *   - añosOficio (la web dice 20: confirmar)
  *   - empresaDesde (año de constitución de la S.L.)
  *   - registro mercantil (tomo / folio / hoja), en lib/legal.ts
  * CIF y domicilio: CONFIRMADOS el 18/09/2026 (fuente: ficha fiscal de la empresa).
@@ -50,6 +54,7 @@ export const site = {
   // ----------------------------------------------------
 
   añosOficio: "20",
+  añosAutonomo: "17",
   /** Año de constitución de la S.L. Vacío hasta que esté confirmado. */
   empresaDesde: "",
   responseTime: "24–48 h",

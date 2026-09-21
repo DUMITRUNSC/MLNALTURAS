@@ -5,20 +5,18 @@ import { site } from "@/lib/site";
 const cifras = [
   {
     value: `${site.añosOficio}`,
-    label: "años de oficio en altura",
-    sub: site.empresaDesde
-      ? `como autónomo y, desde ${site.empresaDesde}, con empresa propia`
-      : "en Madrid y alrededores",
+    label: "años de oficio del gerente",
+    sub: `${site.añosAutonomo} años como autónomo antes de crear MLN`,
   },
   {
     value: "100%",
-    label: "del personal con formación de altura",
-    sub: "en vigor, y EPI homologado con su revisión al día",
+    label: "de los proyectos supervisados por el gerente",
+    sub: "desde el diagnóstico hasta la entrega",
   },
   {
     value: site.responseTime,
-    label: "para dar respuesta",
-    sub: "visita o presupuesto",
+    label: "para dar una primera respuesta",
+    sub: "en días laborables",
   },
 ];
 
@@ -67,10 +65,10 @@ export default function WhyMLN() {
               className="h-display mb-6"
               style={{ fontSize: "var(--d-2)", color: "var(--ink)" }}
             >
-              No somos los más baratos.
+              {site.añosOficio} años de oficio.
               <br />
               <span style={{ color: "var(--blue)" }}>
-                Somos los que lo dejan bien.
+                Cada proyecto, supervisado de cerca.
               </span>
             </h2>
 
@@ -80,20 +78,16 @@ export default function WhyMLN() {
             >
               <p>
                 {site.legalName} es una empresa madrileña especializada en
-                trabajos verticales, rehabilitación de fachadas y construcción
-                en altura. El oficio son {site.añosOficio} años entrando donde
-                el andamio no llega —fachadas, patios de luces, cubiertas y
-                estructuras de difícil acceso en Madrid y su corona
-                metropolitana—
-                {site.empresaDesde
-                  ? `, primero como autónomo y desde ${site.empresaDesde} como empresa propia.`
-                  : ", y la empresa es la forma que le hemos dado."}
+                trabajos verticales y rehabilitación de edificios. Su gerente
+                acumula {site.añosOficio} años de oficio en altura: trabajó{" "}
+                {site.añosAutonomo} años como autónomo antes de poner en marcha
+                MLN.
               </p>
               <p>
-                Bajar el precio lo puede hacer cualquiera. Lo difícil es
-                diagnosticar bien, ejecutar con seguridad y dejar el edificio
-                resuelto, no parcheado. Esa es la única manera de trabajar que
-                conocemos.
+                Hoy supervisa personalmente todos los proyectos, desde la visita
+                y el diagnóstico hasta la ejecución y la entrega. Así se
+                mantiene un criterio técnico único y el cliente sabe quién
+                responde.
               </p>
             </div>
 

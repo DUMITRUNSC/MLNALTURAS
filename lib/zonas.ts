@@ -12,11 +12,11 @@
 export const zonas = [
   {
     nombre: "Madrid capital",
-    desc: "Fachada de ladrillo y piedra en el centro, bloques de los sesenta y setenta en los distritos del sur. Casi todo con patio de luces, casi nada con sitio para montar andamio.",
+    desc: "Fachadas, patios de luces, cubiertas y medianeras con accesos condicionados por la vía pública.",
   },
   {
     nombre: "Alcobendas y San Sebastián de los Reyes",
-    desc: "Promociones de los ochenta y noventa entrando en su segunda ITE. Cubierta plana, terraza y junta de dilatación.",
+    desc: "Rehabilitación de fachadas, cubiertas planas, terrazas y juntas de dilatación.",
   },
   {
     nombre: "Pozuelo, Majadahonda y Las Rozas",
@@ -24,14 +24,14 @@ export const zonas = [
   },
   {
     nombre: "Getafe, Leganés y Fuenlabrada",
-    desc: "Bloque de altura y fachada de gran superficie. Aquí el trabajo por cuerda ahorra semanas de andamio y no deja la calle ocupada.",
+    desc: "Bloques en altura y fachadas de gran superficie donde el acceso por cuerda puede reducir medios auxiliares y molestias.",
   },
   {
     nombre: "Alcalá de Henares y Corredor del Henares",
-    desc: "Casco antiguo con fachada protegida y polígono industrial con cubierta de chapa y fibrocemento.",
+    desc: "Fachadas en casco urbano y cubiertas de naves en el Corredor del Henares.",
   },
   {
     nombre: "Resto de la Comunidad de Madrid",
-    desc: "Salimos fuera para obra completa. Para una reparación pequeña a 70 km te diremos que busques a alguien de allí.",
+    desc: "Valoramos el desplazamiento según el alcance, la duración y los medios necesarios para la intervención.",
   },
 ] as const;

@@ -5,6 +5,7 @@
  */
 @import "tailwindcss";
 @source not "../_to_delete";
+@source not "../components/_deprecated";
 
 /* ------------------------------------------------------------------ *
  * Escala tipográfica. Seis pasos y ninguno más: antes había 22

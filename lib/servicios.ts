@@ -9,13 +9,13 @@ export const servicios = [
   {
     num: "01",
     titulo: "Rehabilitación de fachadas",
-    desc: "Saneado, sellado de juntas, reposición de mortero y pintura. Metro a metro, por cuerda, sin ocupar la calle.",
+    desc: "Saneado, sellado de juntas, reposición de mortero y pintura. Acceso directo al punto de intervención, sin andamio cuando no hace falta.",
     foto: fotos.s01Fachadas,
   },
   {
     num: "02",
     titulo: "Reparación de cubiertas y tejados",
-    desc: "Teja, canalón, cumbrera y remates. Reparación quirúrgica antes de que la filtración baje dos plantas.",
+    desc: "Teja, canalón, cumbrera y remates. Localizamos el origen de la filtración y actuamos antes de que el daño avance.",
     foto: fotos.s02Cubiertas,
   },
   {
@@ -27,7 +27,7 @@ export const servicios = [
   {
     num: "04",
     titulo: "Patios de luces y medianeras",
-    desc: "El punto ciego del edificio: donde no entra andamio ni plataforma y solo se llega descolgado.",
+    desc: "Acceso por cuerda para intervenir en zonas donde montar un andamio o una plataforma resulta complicado.",
     foto: fotos.s04Patios,
   },
   {

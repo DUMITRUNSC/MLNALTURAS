@@ -169,7 +169,7 @@ export default function Header() {
               className="group hidden xl:inline-flex items-center gap-2 h-[42px] px-5 border text-t2 font-semibold transicion-color duration-200"
               style={{ borderColor: "var(--ink-soft)", color: "var(--ink)" }}
             >
-              Visita técnica
+              Pedir visita
               <ArrowRight
                 size={15}
                 aria-hidden

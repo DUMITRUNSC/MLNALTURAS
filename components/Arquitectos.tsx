@@ -5,7 +5,7 @@ const bloques = [
   {
     num: "01",
     title: "Acceso para inspección y toma de datos",
-    desc: "Descolgamos al técnico donde haga falta para catas, pruebas, fotografía de detalle o termografía, sin medios auxiliares ni licencia de ocupación de vía pública.",
+    desc: "Accedemos al punto necesario para catas, pruebas, fotografía de detalle o termografía, evitando medios auxiliares y ocupación de vía cuando el edificio lo permite.",
   },
   {
     num: "02",
@@ -107,7 +107,7 @@ export default function Arquitectos() {
             className="group inline-flex items-center gap-3 min-h-11 py-2 text-t3 font-semibold"
             style={{ color: "var(--ink)" }}
           >
-            Mandar las especificaciones
+            Enviar proyecto o mediciones
             <ArrowUpRight
               size={19}
               style={{ color: "var(--blue)" }}
