@@ -14,8 +14,8 @@ const vias = [
       "Trato correcto con vecinos y administradores",
       "Carné de conducir B",
     ],
-    enlace: "#alta-trabajador",
-    accion: "Dejar mis datos",
+    enlace: "#contacto-empleo",
+    accion: "Contactar",
   },
   {
     num: "02",
@@ -29,8 +29,8 @@ const vias = [
       "Capacidad de asumir una obra completa, no solo una jornada",
       "Una obra anterior que podamos ir a ver",
     ],
-    enlace: "#alta-empresa",
-    accion: "Proponer colaboración",
+    enlace: "#contacto-empleo",
+    accion: "Contactar",
   },
 ];
 

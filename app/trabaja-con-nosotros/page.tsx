@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
+import { ArrowRight, MessageCircle, Phone } from "lucide-react";
 import Image from "next/image";
 import { BotonEnlace } from "@/components/Boton";
 import ViasDeEntrada from "@/components/Empleo";
 import Footer from "@/components/Footer";
-import FormularioEmpleo from "@/components/FormularioEmpleo";
 import Header from "@/components/Header";
 import Miga from "@/components/Miga";
 import MobileCallBar from "@/components/MobileCallBar";
 import Reveals from "@/components/Reveals";
 import { fotos } from "@/lib/fotos";
-import { site } from "@/lib/site";
+import { site, whatsappUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   // 39 + 31 de plantilla = 70 caracteres, que es lo que se ve entero.
   title: "Empleo en trabajos verticales en Madrid",
   description:
-    "Oficiales de trabajos verticales en plantilla y empresas o autónomos colaboradores en Madrid. Deja tus datos y tus certificados de altura.",
+    "Oficiales de trabajos verticales en plantilla y empresas o autónomos colaboradores en Madrid. Llámanos o escríbenos directamente.",
   alternates: { canonical: "/trabaja-con-nosotros" },
   // En Next el openGraph de la página sustituye al del layout, no se fusiona:
   // sin imagen ni siteName aquí, al compartirlo por WhatsApp salía pelado.
@@ -123,15 +123,15 @@ export default function TrabajaConNosotros() {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-                  <BotonEnlace href="#alta-trabajador" medida="media">
-                    Quiero trabajar en MLN
+                  <BotonEnlace href="#contacto-empleo" medida="media">
+                    Contactar
                   </BotonEnlace>
                   <a
-                    href="#alta-empresa"
+                    href="#vias"
                     className="inline-flex items-center min-h-11 py-2 text-t3 font-semibold"
                     style={{ color: "var(--ink)" }}
                   >
-                    Proponer colaboración
+                    Cómo se entra en MLN
                   </a>
                 </div>
               </div>
@@ -283,14 +283,116 @@ export default function TrabajaConNosotros() {
           </div>
         </section>
 
-        {/* 04 · Alta */}
+        {/* 04 · Contacto directo */}
         <section
-          id="alta"
+          id="contacto-empleo"
           className="py-24 lg:py-32"
           style={{ backgroundColor: "var(--bg-soft)" }}
         >
           <div className="pagina">
-            <FormularioEmpleo />
+            <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20">
+              <div>
+                <div className="flex items-center gap-5 mb-8">
+                  <span
+                    className="w-10 h-px"
+                    style={{ backgroundColor: "var(--rule)" }}
+                  />
+                  <p className="eyebrow" style={{ color: "var(--ink-muted)" }}>
+                    Contacto
+                  </p>
+                </div>
+                <h2
+                  className="h-display mb-7"
+                  style={{ fontSize: "var(--d-2)", color: "var(--ink)" }}
+                >
+                  Llámanos o escríbenos.
+                  <br />
+                  <span style={{ color: "var(--blue)" }}>
+                    Sin formularios.
+                  </span>
+                </h2>
+                <p
+                  className="text-t3 leading-[1.68] mb-5 max-w-[46ch]"
+                  style={{ color: "var(--ink-soft)" }}
+                >
+                  Da igual si vienes como trabajador, como autónomo o como
+                  empresa. Cuéntanos quién eres y qué sabes hacer, y cuando haya
+                  una obra que encaje te llamamos.
+                </p>
+                <p
+                  className="text-t3 leading-[1.6] pl-4 border-l-2 max-w-[42ch]"
+                  style={{ color: "var(--ink-muted)", borderColor: "var(--blue)" }}
+                >
+                  No pedimos currículum. Lo que cuenta es una conversación y,
+                  después, verte trabajar.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-0">
+                {[
+                  {
+                    rotulo: "Llamar",
+                    titulo: site.phoneDisplay,
+                    pie: "Te atiende el gerente.",
+                    href: `tel:${site.phone}`,
+                    icono: <Phone size={20} style={{ color: "var(--blue)" }} aria-hidden />,
+                  },
+                  {
+                    rotulo: "WhatsApp",
+                    titulo: "Enviar un mensaje",
+                    pie: "Cuéntanos quién eres, qué haces y dónde has trabajado.",
+                    href: whatsappUrl(
+                      "Hola, os escribo desde la web de MLN por el tema de empleo/colaboración.",
+                    ),
+                    externo: true,
+                    icono: <MessageCircle size={20} style={{ color: "var(--blue)" }} aria-hidden />,
+                  },
+                  {
+                    rotulo: "Email",
+                    titulo: site.emailEmpleo,
+                    pie: "Para propuestas más detalladas o documentación.",
+                    href: `mailto:${site.emailEmpleo}?subject=${encodeURIComponent("Empleo / Colaboración")}`,
+                    icono: <ArrowRight size={20} style={{ color: "var(--blue)" }} aria-hidden />,
+                  },
+                ].map(({ rotulo, titulo, pie, href, externo, icono }) => (
+                  <a
+                    key={rotulo}
+                    href={href}
+                    {...(externo
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="group flex items-start gap-5 py-7 border-t last:border-b transicion-color duration-200"
+                    style={{ borderColor: "var(--line)" }}
+                    data-reveal
+                  >
+                    <span className="shrink-0 mt-1">{icono}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="eyebrow block mb-2" style={{ color: "var(--ink-faint)" }}>
+                        {rotulo}
+                      </span>
+                      <span
+                        className="block text-t5 font-semibold tracking-[-0.01em] mb-1"
+                        style={{ color: "var(--ink)" }}
+                      >
+                        {titulo}
+                      </span>
+                      <span
+                        className="block text-t3 leading-snug"
+                        style={{ color: "var(--ink-muted)" }}
+                      >
+                        {pie}
+                      </span>
+                    </span>
+                    <ArrowRight
+                      size={17}
+                      aria-hidden
+                      style={{ color: "var(--blue)" }}
+                      className="shrink-0 mt-2 transition-transform duration-200 group-hover:translate-x-[6px]"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </main>
