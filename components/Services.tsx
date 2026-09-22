@@ -77,37 +77,30 @@ export default function Services() {
                       formulario y prometían un detalle que no había. Cuando
                       existan las páginas de servicio, cada fila enlazará a la
                       suya. Con teclado, los marcadores de la foto hacen lo
-                      mismo que pasar el ratón. */}
+                      mismo que pasar el ratón.
+
+                      El resaltado en azul solo existe de lg en adelante,
+                      porque solo allí sirve para algo: mueve el marcador de la
+                      foto. En un móvil no hay ratón, así que el 01 se quedaba
+                      azul para siempre y parecía elegido a propósito. */}
                   {/* biome-ignore lint/a11y/noStaticElementInteractions: el resaltado al pasar el ratón es un atajo visual; el camino accesible son los marcadores, que son <button> */}
                   <div
                     onMouseEnter={() => setActivo(i)}
-                    className="group grid grid-cols-[34px_minmax(0,1fr)_auto] lg:grid-cols-[56px_1fr_auto] items-start lg:items-center gap-x-4 sm:gap-x-6 gap-y-2 lg:gap-y-3 py-5 lg:py-8 border-t transicion-color duration-300"
-                    style={{
-                      borderColor: esta ? "var(--blue)" : "var(--line)",
-                      borderBottom:
-                        i === servicios.length - 1
-                          ? "1px solid var(--line)"
-                          : undefined,
-                    }}
+                    data-activo={esta ? "" : undefined}
+                    className={`group grid grid-cols-[34px_minmax(0,1fr)_auto] lg:grid-cols-[56px_1fr_auto] items-start lg:items-center gap-x-4 sm:gap-x-6 gap-y-2 lg:gap-y-3 py-5 lg:py-8 border-t border-[var(--line)] lg:data-activo:border-[var(--blue)] transicion-color duration-300 ${
+                      i === servicios.length - 1
+                        ? "border-b border-b-[var(--line)]"
+                        : ""
+                    }`}
                   >
-                    <span
-                      className="tecnico text-t1 font-semibold col-start-1 row-start-1 lg:row-span-2 self-start lg:self-center pt-1 lg:pt-0 transicion-color duration-300"
-                      style={{
-                        color: esta ? "var(--blue)" : "var(--ink-faint)",
-                      }}
-                    >
+                    <span className="tecnico text-t1 font-semibold col-start-1 row-start-1 lg:row-span-2 self-start lg:self-center pt-1 lg:pt-0 text-[var(--ink-faint)] lg:group-data-activo:text-[var(--blue)] transicion-color duration-300">
                       {s.num}
                     </span>
 
                     <span className="min-w-0 col-start-2 row-start-1 transition-transform duration-300 ease-out lg:group-hover:translate-x-[6px]">
                       {/* h3 y no un span: es el nombre del servicio, y es lo que
                           un buscador lee como contenido de la sección. */}
-                      <h3
-                        className="text-t5 lg:text-[length:var(--d-1)] font-semibold tracking-[-0.02em] mb-1.5 transicion-color duration-300"
-                        style={{
-                          color: esta ? "var(--blue)" : "var(--ink)",
-                        }}
-                      >
+                      <h3 className="text-t5 lg:text-[length:var(--d-1)] font-semibold tracking-[-0.02em] mb-1.5 text-[var(--ink)] lg:group-data-activo:text-[var(--blue)] transicion-color duration-300">
                         {s.titulo}
                       </h3>
                     </span>
@@ -191,36 +184,33 @@ export default function Services() {
                       }}
                     >
                       {s.num}
-                      {esta && (
-                        <span
-                          className="absolute right-full mr-3 flex items-center gap-2 whitespace-nowrap"
-                          aria-hidden
-                        >
-                          <span
-                            className="eyebrow px-2.5 py-1.5"
-                            style={{
-                              backgroundColor: "var(--white)",
-                              color: "var(--ink)",
-                              boxShadow: "var(--sombra-suave)",
-                            }}
-                          >
-                            {s.titulo}
-                          </span>
-                          <span
-                            className="block w-4 h-px"
-                            style={{ backgroundColor: "var(--blue)" }}
-                          />
-                        </span>
-                      )}
                     </button>
                   );
                 })}
 
+                {/* El nombre del servicio activo, en una banda dentro de la
+                    foto. Antes colgaba del marcador hacia la izquierda y, en
+                    los marcadores de la derecha, se salía de la foto y se
+                    montaba encima del índice. */}
                 <figcaption
-                  className="absolute left-3 bottom-3 cota-foto tecnico text-t1 font-semibold uppercase"
-                  style={{ color: "var(--white)" }}
+                  className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-3 pt-10 pb-3"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(16,19,26,0) 0%, rgba(16,19,26,0.78) 70%)",
+                  }}
                 >
-                  MLN / 02
+                  <span
+                    className="eyebrow leading-snug text-balance transicion-color duration-300"
+                    style={{ color: "var(--white)" }}
+                  >
+                    {servicios[activo].titulo}
+                  </span>
+                  <span
+                    className="cota-foto tecnico text-t1 font-semibold uppercase shrink-0"
+                    style={{ color: "var(--white)" }}
+                  >
+                    MLN / 02
+                  </span>
                 </figcaption>
               </figure>
             </div>
