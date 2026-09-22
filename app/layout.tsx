@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Mono, Inter } from "next/font/google";
+import Medicion from "@/components/Medicion";
 import { servicios } from "@/lib/servicios";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Trabajos verticales en Madrid | MLN Construcciones en Altura",
     description:
-      "Soluciones técnicas en altura para comunidades, administradores, arquitectos e ingenieros en Madrid. Control de principio a fin.",
+      "Fachadas, cubiertas, impermeabilización e ITE mediante trabajos verticales en Madrid. Visita técnica gratuita y presupuesto por escrito.",
     url: site.url,
     siteName: site.legalName,
     locale: "es_ES",
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
         width: 1536,
         height: 1024,
         type: "image/jpeg",
-        alt: "Técnico de MLN trabajando por cuerda en una fachada de Madrid",
+        alt: "Técnico trabajando por cuerda en una fachada de Madrid",
       },
     ],
   },
@@ -76,7 +77,8 @@ export const viewport = {
  * de acción manual. streetAddress, postalCode y vatID ya van con los datos
  * confirmados de lib/site.ts.
  */
-const ID_EMPRESA = `${site.url}/#empresa`;
+// No `#empresa`: ese es el ancla de la sección Empresa de la portada.
+const ID_EMPRESA = `${site.url}/#organizacion`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -175,6 +177,7 @@ export default function RootLayout({
           Saltar al contenido
         </a>
         {children}
+        <Medicion />
       </body>
     </html>
   );

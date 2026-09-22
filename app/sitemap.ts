@@ -10,7 +10,20 @@ import { site } from "@/lib/site";
  * se actualiza su fecha aquí.
  */
 const rutas = [
-  { ruta: "", fecha: "2026-09-14", frecuencia: "monthly", peso: 1 },
+  { ruta: "", fecha: "2026-09-22", frecuencia: "monthly", peso: 1 },
+  {
+    ruta: "/administradores",
+    fecha: "2026-09-22",
+    frecuencia: "monthly",
+    peso: 0.8,
+  },
+  {
+    ruta: "/arquitectos",
+    fecha: "2026-09-22",
+    frecuencia: "monthly",
+    peso: 0.8,
+  },
+  { ruta: "/zonas", fecha: "2026-09-22", frecuencia: "monthly", peso: 0.7 },
   {
     ruta: "/trabaja-con-nosotros",
     fecha: "2026-09-14",

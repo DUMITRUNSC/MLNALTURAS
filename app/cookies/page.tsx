@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         width: 1536,
         height: 1024,
         type: "image/jpeg",
-        alt: "Técnico de MLN trabajando por cuerda en una fachada de Madrid",
+        alt: "Técnico trabajando por cuerda en una fachada de Madrid",
       },
     ],
   },
@@ -37,7 +37,7 @@ export default function Cookies() {
       <Header />
       <LegalLayout
         ruta="/cookies"
-        marcador="Legal "
+        marcador="Documentos legales"
         titulo="Política de cookies"
         entradilla="La versión corta: esta web no te sigue. No hay analítica, no hay píxeles de publicidad y no hay cookies de terceros, así que tampoco hay ventana de consentimiento que cerrar."
       >

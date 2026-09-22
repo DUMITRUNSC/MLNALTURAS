@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         width: 1536,
         height: 1024,
         type: "image/jpeg",
-        alt: "Técnico de MLN trabajando por cuerda en una fachada de Madrid",
+        alt: "Técnico trabajando por cuerda en una fachada de Madrid",
       },
     ],
   },
@@ -39,7 +39,7 @@ export default function AvisoLegal() {
       <Header />
       <LegalLayout
         ruta="/aviso-legal"
-        marcador="Legal "
+        marcador="Documentos legales"
         titulo="Aviso legal"
         entradilla="Datos identificativos del titular de esta web y condiciones de uso, según el artículo 10 de la Ley 34/2002 de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE)."
       >

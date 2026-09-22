@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { ArrowRight, MessageCircle, Phone } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { BotonEnlace } from "@/components/Boton";
 import ContactoEmpleo from "@/components/ContactoEmpleo";
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         width: 1536,
         height: 1024,
         type: "image/jpeg",
-        alt: "Equipo de MLN trabajando en una terraza de Madrid",
+        alt: "Operario trabajando en una terraza de Madrid",
       },
     ],
   },
@@ -185,8 +185,7 @@ export default function TrabajaConNosotros() {
                   style={{ fontSize: "var(--d-2)", color: "var(--ink)" }}
                 >
                   Qué ofrecemos
-                  <br />
-                  a quien entra en MLN.
+                  <br />a quien entra en MLN.
                 </h2>
               </div>
 
@@ -287,8 +286,8 @@ export default function TrabajaConNosotros() {
         {/* 04 · Déjanos tus datos */}
         <section
           id="contacto-empleo"
-          className="py-24 lg:py-32"
-          style={{ backgroundColor: "var(--bg-soft)" }}
+          className="py-16 lg:py-28"
+          style={{ backgroundColor: "var(--zona-oscura)" }}
         >
           <div className="pagina">
             <ContactoEmpleo />
@@ -298,7 +297,13 @@ export default function TrabajaConNosotros() {
 
       <Footer />
       <MobileCallBar />
-      <div className="lg:hidden h-[58px]" aria-hidden />
+      {/* Hueco para la barra fija. Del color del pie: cuando la barra se
+          aparta en la sección de contacto, antes asomaba una franja blanca. */}
+      <div
+        className="lg:hidden h-[58px]"
+        style={{ backgroundColor: "var(--zona-oscura)" }}
+        aria-hidden
+      />
       <Reveals />
     </>
   );

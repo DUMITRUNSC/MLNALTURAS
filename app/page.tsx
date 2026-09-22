@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Administradores from "@/components/Administradores";
-import Arquitectos from "@/components/Arquitectos";
 import Contact from "@/components/Contact";
 import CTABlock from "@/components/CTABlock";
 import Faq, { faqs } from "@/components/Faq";
@@ -8,12 +6,12 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MobileCallBar from "@/components/MobileCallBar";
+import ParaQuien from "@/components/ParaQuien";
 import Process from "@/components/Process";
 import Reveals from "@/components/Reveals";
 import Services from "@/components/Services";
 import TrustBar from "@/components/TrustBar";
 import WhyMLN from "@/components/WhyMLN";
-import Zonas from "@/components/Zonas";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -43,19 +41,23 @@ export default function Home() {
         <Hero />
         <TrustBar />
         <Services />
-        <Administradores />
-        <Arquitectos />
-        <Zonas />
+        <CTABlock />
+        <ParaQuien />
         <Process />
         <WhyMLN />
         <Faq />
-        <CTABlock />
         <Contact />
       </main>
       <Footer />
       <MobileCallBar />
       <Reveals />
-      <div className="lg:hidden h-[58px]" aria-hidden />
+      {/* Hueco para la barra fija. Del color del pie: cuando la barra se
+          aparta en la sección de contacto, antes asomaba una franja blanca. */}
+      <div
+        className="lg:hidden h-[58px]"
+        style={{ backgroundColor: "var(--zona-oscura)" }}
+        aria-hidden
+      />
       <script
         type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: datos estructurados estáticos

@@ -123,9 +123,20 @@ export function Cajetin({
   celdas,
   children,
 }: {
-  celdas: readonly { rotulo: string; valor: string }[];
+  /** Sin celdas, el cajetín queda en filete + acciones (formulario de cliente). */
+  celdas?: readonly { rotulo: string; valor: string }[];
   children: React.ReactNode;
 }) {
+  if (!celdas || celdas.length === 0) {
+    return (
+      <div
+        className="mt-8 pt-7 border-t"
+        style={{ borderColor: "var(--ink-soft)" }}
+      >
+        {children}
+      </div>
+    );
+  }
   return (
     <div className="mt-8 border-t" style={{ borderColor: "var(--ink-soft)" }}>
       <dl className="grid grid-cols-2 lg:grid-cols-4">
@@ -286,8 +297,11 @@ function Rotulo({
   error?: string;
 }) {
   return (
+    /* Etiqueta en letra normal de 15 px, no en rótulo mono de 11 px en
+       mayúsculas: es lo que hay que leer para rellenar, y mucha gente que
+       contrata una obra tiene más de 50 años. */
     <span
-      className="eyebrow transicion-color duration-150"
+      className="text-t3 font-medium leading-snug transicion-color duration-150"
       style={{ color: error ? ROJO : foco ? "var(--blue)" : "var(--ink-soft)" }}
     >
       {label}
@@ -889,7 +903,7 @@ export function Opciones({
       className={`flex flex-col gap-2.5 min-w-0 self-start ${ancho ? "sm:col-span-2" : ""}`}
     >
       <legend
-        className="eyebrow mb-1"
+        className="text-t3 font-medium leading-snug mb-1"
         style={{ color: error ? ROJO : "var(--ink-soft)" }}
       >
         {label}
@@ -1181,7 +1195,10 @@ export function CapaRgpd({
         aria-controls={`${id}-capa`}
         className="flex items-center gap-3 w-full min-h-11 py-2 text-left"
       >
-        <span className="eyebrow" style={{ color: "var(--ink-muted)" }}>
+        <span
+          className="text-t2 font-medium"
+          style={{ color: "var(--ink-muted)" }}
+        >
           Información básica sobre protección de datos
         </span>
         <span
@@ -1255,6 +1272,70 @@ export function CapaRgpd({
           </span>
         </Casilla>
       </div>
+    </div>
+  );
+}
+
+/* ------------------------------ tramo ----------------------------- */
+
+/** Tramo del formulario: número y título en una línea, campos debajo.
+ *  Sustituye a Bloque en los formularios rediseñados (sin raíl ni contador). */
+export function Tramo({
+  num,
+  titulo,
+  children,
+}: {
+  num: string;
+  titulo: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <fieldset className="py-8">
+      <legend className="sr-only">{titulo}</legend>
+      <p className="flex items-center gap-3 mb-6" aria-hidden>
+        <span
+          className="tecnico text-t1 font-semibold"
+          style={{ color: "var(--blue)" }}
+        >
+          {num}
+        </span>
+        <span className="w-6 h-px" style={{ backgroundColor: "var(--rule)" }} />
+        <span className="eyebrow" style={{ color: "var(--ink-soft)" }}>
+          {titulo}
+        </span>
+      </p>
+      <div className="grid sm:grid-cols-2 gap-x-6 gap-y-6">{children}</div>
+    </fieldset>
+  );
+}
+
+/* -------------------------------- cebo ---------------------------- */
+
+/**
+ * Campo trampa para robots. El servidor descarta en silencio cualquier envío
+ * que lo traiga relleno; una persona no lo ve ni lo alcanza con el tabulador.
+ * No usa `hidden` ni `display:none` a propósito: muchos robots ignoran los
+ * campos ocultos así y este hay que dejárselo a la vista.
+ */
+export function Cebo({
+  valor,
+  onChange,
+}: {
+  valor: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="sr-only" aria-hidden>
+      <label htmlFor="apodo">Apodo (dejar en blanco)</label>
+      <input
+        id="apodo"
+        name="apodo"
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        value={valor}
+        onChange={(e) => onChange(e.target.value)}
+      />
     </div>
   );
 }

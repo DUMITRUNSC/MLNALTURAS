@@ -7,18 +7,17 @@ import { Boton, BotonEnlace } from "@/components/Boton";
 import {
   Adjuntos,
   Area,
-  Bloque,
-  Cajetin,
   Campo,
   CapaRgpd,
+  Cebo,
   Faltan,
-  Lamina,
   Opciones,
+  Tramo,
   useFormulario,
-  useHoy,
 } from "@/components/campos";
 import { enviarPorServidor } from "@/lib/enviar";
 import { legal } from "@/lib/legal";
+import { medir } from "@/lib/medir";
 import { site, whatsappUrl } from "@/lib/site";
 
 const perfiles = [
@@ -31,7 +30,6 @@ const perfiles = [
 const vacio = {
   nombre: "",
   telefono: "",
-  email: "",
   perfil: "",
   zona: "",
   mensaje: "",
@@ -56,7 +54,6 @@ export default function Contact() {
   const f = useFormulario(vacio, {
     nombre: ["texto", "el nombre"],
     telefono: ["tel", "el teléfono"],
-    email: ["email-opcional", "el correo"],
   });
   const [acepto, setAcepto] = useState(false);
   const [errorConsentimiento, setErrorConsentimiento] = useState<string>();
@@ -65,9 +62,9 @@ export default function Contact() {
   const [enviando, setEnviando] = useState(false);
   const [errorEnvio, setErrorEnvio] = useState<string>();
   const [ficheros, setFicheros] = useState<File[]>([]);
+  const [apodo, setApodo] = useState("");
   const [copiado, setCopiado] = useState(false);
   const casilla = useRef<HTMLInputElement>(null);
-  const hoy = useHoy();
 
   const v = f.valores;
 
@@ -90,7 +87,6 @@ export default function Contact() {
     const lineas: [string, string][] = [
       ["Nombre", v.nombre],
       ["Teléfono", v.telefono],
-      ["Email", v.email],
       ["Escribe como", v.perfil],
       ["Dirección o zona", v.zona],
     ];
@@ -115,6 +111,7 @@ export default function Contact() {
   };
 
   const porCorreo = () => {
+    medir("formulario", { tipo: "visita", via: "correo" });
     window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(
       "Solicitud de visita técnica",
     )}&body=${encodeURIComponent(resumen())}`;
@@ -132,16 +129,17 @@ export default function Contact() {
       {
         nombre: v.nombre,
         telefono: v.telefono,
-        email: v.email,
         perfil: v.perfil,
         "direccion o zona": v.zona,
         mensaje: v.mensaje,
         consentimiento: "aceptado",
+        apodo,
       },
       ficheros,
     );
     setEnviando(false);
     if (salida === "enviado") {
+      medir("formulario", { tipo: "visita", via: "servidor" });
       setComoFue("servidor");
       setSent(true);
       return;
@@ -154,8 +152,10 @@ export default function Contact() {
     porCorreo();
   };
 
+  /* Abrir WhatsApp no envía nada a MLN: lo envía la persona desde su chat.
+     Por eso no se le exige la casilla ni los campos obligatorios. */
   const porWhatsapp = () => {
-    if (!guardia()) return;
+    medir("whatsapp", { donde: "formulario" });
     window.open(whatsappUrl(resumen()), "_blank", "noopener,noreferrer");
     setComoFue("whatsapp");
     setSent(true);
@@ -194,20 +194,21 @@ export default function Contact() {
     {
       rotulo: "Llamar",
       texto: site.phoneDisplay,
-      pie: "Te atiende quien sube al edificio.",
+      pie: "Llámanos y lo vemos contigo.",
       href: `tel:${site.phone}`,
+      grande: true,
     },
     {
       rotulo: "WhatsApp",
       texto: "Enviar fotos del problema",
-      pie: "En el ordenador se abre WhatsApp Web; también puedes leer el código de al lado con el móvil.",
+      pie: "Una foto dice más que una descripción.",
       href: whatsappUrl("Hola, os escribo desde la web de MLN."),
       externo: true,
     },
     {
       rotulo: "Email",
       texto: site.email,
-      pie: "Para proyectos, informes o especificaciones.",
+      pie: "Proyectos, informes o especificaciones.",
       href: `mailto:${site.email}`,
     },
   ];
@@ -215,228 +216,254 @@ export default function Contact() {
   return (
     <section
       id="contacto"
-      className="py-24 lg:py-32"
-      style={{ backgroundColor: "var(--white)" }}
+      className="py-16 lg:py-28"
+      style={{ backgroundColor: "var(--zona-oscura)" }}
     >
       <div className="pagina">
-        <div className="grid lg:grid-cols-[0.78fr_1.22fr] gap-12 lg:gap-20">
-          {/* Columna izquierda: en móvil va DESPUÉS del formulario, que es
-              lo que la persona ha venido a buscar al pulsar el botón. */}
-          <div className="order-2 lg:order-1">
+        <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-start">
+          {/* Columna izquierda. En móvil va DESPUÉS del formulario, que es lo
+              que la persona ha venido a buscar al pulsar «Pedir visita»; la
+              barra fija de abajo ya le da llamar y WhatsApp. */}
+          <div className="order-2 lg:order-1 lg:sticky lg:top-28">
             <div className="hidden lg:flex items-center gap-4 mb-8">
               <span
                 className="w-10 h-px"
-                style={{ backgroundColor: "var(--rule)" }}
+                style={{ backgroundColor: "var(--sobre-oscuro-tenue)" }}
               />
-              <p className="eyebrow" style={{ color: "var(--ink-muted)" }}>
+              <p
+                className="eyebrow"
+                style={{ color: "var(--sobre-oscuro-tenue)" }}
+              >
                 Contacto
               </p>
             </div>
 
             <h2
-              className="hidden lg:block h-display mb-7"
-              style={{ fontSize: "var(--d-2)", color: "var(--ink)" }}
+              className="hidden lg:block h-display text-white mb-7"
+              style={{ fontSize: "var(--d-3)" }}
             >
               El primer paso
               <br />
-              es subir a verlo.
+              <span style={{ color: "var(--blue-light)" }}>
+                es subir a verlo.
+              </span>
             </h2>
 
             <p
-              className="hidden lg:block text-t3 leading-[1.68] mb-5 max-w-[46ch]"
-              style={{ color: "var(--ink-soft)" }}
+              className="hidden lg:block text-t4 leading-[1.65] mb-8 max-w-[44ch]"
+              style={{ color: "var(--sobre-oscuro-suave)" }}
             >
               Una visita técnica es exactamente eso: subimos, miramos el
               edificio de cerca y te decimos qué tiene, qué haríamos y cuánto
               cuesta. Por escrito, para que lo puedas llevar a una junta.
             </p>
 
+            {/* Urgencia: una línea, con su punto, sin caja */}
             <p
-              className="text-t3 leading-[1.6] mb-10 pl-4 border-l-2 max-w-[42ch]"
-              style={{ color: "var(--ink-muted)", borderColor: "var(--blue)" }}
+              className="flex items-start gap-3 text-t3 leading-[1.55] mb-10 max-w-[44ch]"
+              style={{ color: "var(--sobre-oscuro)" }}
             >
-              Contestamos en {site.responseTime} laborables. Si hay riesgo de
-              desprendimiento o ha entrado agua, llama: intentamos verlo el
-              mismo día.
+              <span
+                className="mt-[0.45em] w-2 h-2 shrink-0 rounded-full"
+                style={{ backgroundColor: "var(--blue-light)" }}
+                aria-hidden
+              />
+              <span>
+                ¿Riesgo de desprendimiento o ha entrado agua? Llama: intentamos
+                verlo el mismo día.
+              </span>
             </p>
 
-            <div className="grid lg:grid-cols-[minmax(0,1fr)_112px] gap-x-6 items-start">
-              <div className="flex flex-col">
-                {canales.map(({ rotulo, texto, pie, href, externo }) => (
-                  <a
-                    key={rotulo}
-                    href={href}
-                    {...(externo
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className="group grid grid-cols-[86px_minmax(0,1fr)_auto] items-baseline gap-4 py-5 border-t last:border-b"
-                    style={{ borderColor: "var(--line)" }}
-                  >
-                    <span
-                      className="eyebrow"
-                      style={{ color: "var(--ink-faint)" }}
-                    >
-                      {rotulo}
-                    </span>
-                    <span className="min-w-0">
-                      <span
-                        className="block text-t3 font-semibold break-words"
-                        style={{ color: "var(--ink)" }}
-                      >
-                        {texto}
-                      </span>
-                      <span
-                        className="block text-t2 leading-snug mt-1"
-                        style={{ color: "var(--ink-muted)" }}
-                      >
-                        {pie}
-                      </span>
-                    </span>
-                    <ArrowRight
-                      size={15}
-                      aria-hidden
-                      style={{ color: "var(--blue)" }}
-                      className="transition-transform duration-200 group-hover:translate-x-[5px]"
-                    />
-                  </a>
-                ))}
-              </div>
-
-              {/* El QR solo tiene sentido delante de un ordenador: quien lo ve
-                  en el móvil ya tiene el enlace directo. Es un SVG estático
-                  (el número no cambia), sin nada que generar en el navegador. */}
-              <figure className="hidden lg:block m-0 pt-5">
-                <Image
-                  src="/qr-whatsapp.svg"
-                  alt="Código QR que abre un chat de WhatsApp con MLN"
-                  width={112}
-                  height={112}
-                  unoptimized
-                  className="border"
-                  style={{ borderColor: "var(--line)" }}
-                />
-                <figcaption
-                  className="tecnico text-t1 mt-2 leading-snug"
-                  style={{ color: "var(--ink-faint)" }}
+            <div
+              className="flex flex-col border-t"
+              style={{ borderColor: "var(--filete-oscuro)" }}
+            >
+              {canales.map(({ rotulo, texto, pie, href, externo, grande }) => (
+                <a
+                  key={rotulo}
+                  href={href}
+                  {...(externo
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="group grid grid-cols-[84px_minmax(0,1fr)_auto] items-center gap-4 py-5 border-b"
+                  style={{ borderColor: "var(--filete-oscuro)" }}
                 >
-                  WHATSAPP
-                  <br />
-                  DESDE EL MÓVIL
-                </figcaption>
-              </figure>
+                  <span
+                    className="eyebrow"
+                    style={{ color: "var(--sobre-oscuro-tenue)" }}
+                  >
+                    {rotulo}
+                  </span>
+                  <span className="min-w-0">
+                    <span
+                      className={`block font-semibold text-white break-words transicion-color duration-150 group-hover:text-[var(--blue-light)] ${
+                        grande ? "tracking-[-0.03em]" : "text-t4"
+                      }`}
+                      style={grande ? { fontSize: "var(--d-1)" } : undefined}
+                    >
+                      {texto}
+                    </span>
+                    <span
+                      className="block text-t2 leading-snug mt-1"
+                      style={{ color: "var(--sobre-oscuro-tenue)" }}
+                    >
+                      {pie}
+                    </span>
+                  </span>
+                  <ArrowRight
+                    size={16}
+                    aria-hidden
+                    style={{ color: "var(--blue-light)" }}
+                    className="transition-transform duration-200 group-hover:translate-x-[5px]"
+                  />
+                </a>
+              ))}
             </div>
 
-            <div
-              className="pt-8 mt-10 border-t"
-              style={{ borderColor: "var(--line)" }}
-            >
-              <p className="eyebrow mb-3" style={{ color: "var(--ink-faint)" }}>
-                Zonas de trabajo
-              </p>
+            {/* QR: solo delante de un ordenador. En el móvil ya hay enlace. */}
+            <div className="hidden lg:flex items-center gap-5 mt-8">
+              <Image
+                src="/qr-whatsapp.svg"
+                alt="Código QR que abre un chat de WhatsApp con MLN"
+                width={76}
+                height={76}
+                unoptimized
+                className="p-1.5"
+                style={{ backgroundColor: "#ffffff" }}
+              />
               <p
-                className="text-t2 leading-relaxed max-w-[46ch]"
-                style={{ color: "var(--ink-muted)" }}
+                className="text-t2 leading-snug max-w-[26ch]"
+                style={{ color: "var(--sobre-oscuro-tenue)" }}
               >
-                {site.areas.join(", ")}. Para otros municipios consultamos
-                disponibilidad y desplazamiento antes de confirmar la visita.
+                ¿Estás en el ordenador? Escanéalo y sigue por WhatsApp desde el
+                móvil.
               </p>
             </div>
           </div>
 
-          {/* Formulario */}
+          {/* Formulario: hoja blanca sobre el fondo oscuro */}
           <div className="order-1 lg:order-2">
-            <div className="lg:hidden flex items-center gap-4 mb-6">
-              <span
-                className="w-10 h-px"
-                style={{ backgroundColor: "var(--rule)" }}
-              />
-              <p className="eyebrow" style={{ color: "var(--ink-muted)" }}>
-                Contacto
-              </p>
-            </div>
-            <h2
-              className="lg:hidden h-display mb-3"
-              style={{ fontSize: "var(--d-2)", color: "var(--ink)" }}
-            >
-              Solicita una visita técnica.
-            </h2>
-            <p
-              className="lg:hidden text-t3 leading-[1.6] mb-8 max-w-[46ch]"
-              style={{ color: "var(--ink-muted)" }}
-            >
-              Solo necesitamos un nombre y un teléfono. El resto nos ayuda a
-              preparar la visita.
-            </p>
-
-            {sent ? (
-              <div className="entra-acuse flex flex-col justify-center gap-5 py-6">
+            <div className="lg:hidden mb-8">
+              <div className="flex items-center gap-4 mb-6">
                 <span
-                  className="w-12 h-12 flex items-center justify-center"
-                  style={{ backgroundColor: "var(--blue-soft)" }}
-                >
-                  <Check
-                    size={24}
-                    strokeWidth={2.5}
-                    style={{ color: "var(--blue)" }}
-                    aria-hidden
-                  />
-                </span>
-                <h3
-                  className="font-semibold tracking-[-0.02em]"
-                  style={{ fontSize: "var(--d-1)", color: "var(--ink)" }}
-                >
-                  {acuse[comoFue].titulo}
-                </h3>
+                  className="w-10 h-px"
+                  style={{ backgroundColor: "var(--sobre-oscuro-tenue)" }}
+                />
                 <p
-                  className="text-t3 leading-relaxed max-w-[52ch]"
-                  style={{ color: "var(--ink-muted)" }}
+                  className="eyebrow"
+                  style={{ color: "var(--sobre-oscuro-tenue)" }}
                 >
-                  {acuse[comoFue].texto}
+                  Contacto
                 </p>
-                <div className="flex flex-wrap gap-3">
-                  {comoFue !== "servidor" && (
-                    <BotonEnlace
-                      href={whatsappUrl(resumen())}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      medida="media"
-                    >
-                      <MessageCircle size={17} aria-hidden />
-                      {comoFue === "whatsapp"
-                        ? "Abrir WhatsApp otra vez"
-                        : "Enviar por WhatsApp"}
-                    </BotonEnlace>
-                  )}
-                  {comoFue !== "servidor" && (
-                    <Boton onClick={copiar} variante="contorno" medida="media">
-                      <Copy size={16} aria-hidden />
-                      {copiado ? "Datos copiados" : "Copiar los datos"}
-                    </Boton>
-                  )}
-                  <Boton
-                    onClick={() => setSent(false)}
-                    variante="texto"
-                    medida="media"
+              </div>
+              <h2
+                className="h-display text-white"
+                style={{ fontSize: "var(--d-2)" }}
+              >
+                El primer paso
+                <br />
+                <span style={{ color: "var(--blue-light)" }}>
+                  es subir a verlo.
+                </span>
+              </h2>
+            </div>
+
+            <div
+              className="px-5 sm:px-9 lg:px-12 py-8 sm:py-10 lg:py-12"
+              style={{ backgroundColor: "var(--white)" }}
+            >
+              {sent ? (
+                <div className="entra-acuse flex flex-col justify-center gap-5 py-4">
+                  <span
+                    className="w-12 h-12 flex items-center justify-center"
+                    style={{ backgroundColor: "var(--blue-soft)" }}
+                  >
+                    <Check
+                      size={24}
+                      strokeWidth={2.5}
+                      style={{ color: "var(--blue)" }}
+                      aria-hidden
+                    />
+                  </span>
+                  <h3
+                    className="font-semibold tracking-[-0.02em]"
+                    style={{ fontSize: "var(--d-1)", color: "var(--ink)" }}
+                  >
+                    {acuse[comoFue].titulo}
+                  </h3>
+                  <p
+                    className="text-t3 leading-relaxed max-w-[52ch]"
                     style={{ color: "var(--ink-muted)" }}
                   >
-                    {comoFue === "servidor"
-                      ? "Enviar otra solicitud"
-                      : "Volver al formulario"}
-                  </Boton>
+                    {acuse[comoFue].texto}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {comoFue !== "servidor" && (
+                      <BotonEnlace
+                        href={whatsappUrl(resumen())}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        medida="media"
+                      >
+                        <MessageCircle size={17} aria-hidden />
+                        {comoFue === "whatsapp"
+                          ? "Abrir WhatsApp otra vez"
+                          : "Enviar por WhatsApp"}
+                      </BotonEnlace>
+                    )}
+                    {comoFue !== "servidor" && (
+                      <Boton
+                        onClick={copiar}
+                        variante="contorno"
+                        medida="media"
+                      >
+                        <Copy size={16} aria-hidden />
+                        {copiado ? "Datos copiados" : "Copiar los datos"}
+                      </Boton>
+                    )}
+                    <Boton
+                      onClick={() => setSent(false)}
+                      variante="texto"
+                      medida="media"
+                      style={{ color: "var(--ink-muted)" }}
+                    >
+                      {comoFue === "servidor"
+                        ? "Enviar otra solicitud"
+                        : "Volver al formulario"}
+                    </Boton>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <form onSubmit={enviar} noValidate>
-                <Lamina
-                  titulo="Solicitud de visita técnica"
-                  referencia="MLN · VT / HOJA 01"
-                >
-                  {/* El contador cuenta SOLO los obligatorios: dos. */}
-                  <Bloque
-                    num="01"
-                    titulo="Quién eres"
-                    valores={[v.nombre, v.telefono]}
+              ) : (
+                <form onSubmit={enviar} noValidate>
+                  <Cebo valor={apodo} onChange={setApodo} />
+                  {/* Cabecera de la hoja */}
+                  <div
+                    className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 pb-7 border-b"
+                    style={{ borderColor: "var(--line)" }}
                   >
+                    <div>
+                      <h3
+                        className="font-semibold tracking-[-0.025em] mb-1.5"
+                        style={{ fontSize: "var(--d-1)", color: "var(--ink)" }}
+                      >
+                        Solicita una visita técnica
+                      </h3>
+                      <p
+                        className="text-t3"
+                        style={{ color: "var(--ink-muted)" }}
+                      >
+                        Solo necesitamos un nombre y un teléfono.
+                      </p>
+                    </div>
+                    <p
+                      className="tecnico text-t1 font-semibold uppercase tracking-[0.12em] whitespace-nowrap"
+                      style={{ color: "var(--blue)" }}
+                    >
+                      Gratuita · {site.responseTime}
+                    </p>
+                  </div>
+
+                  <Tramo num="01" titulo="Quién eres">
                     <Campo
                       id="nombre"
                       label="Nombre"
@@ -454,23 +481,10 @@ export default function Contact() {
                       tipo="tel"
                       inputMode="tel"
                       autoComplete="tel"
-                      pista="Es por donde antes te localizamos."
                       valor={v.telefono}
                       onChange={f.pon("telefono")}
                       onBlur={f.toca("telefono")}
                       error={f.visible("telefono")}
-                    />
-                    <Campo
-                      id="email"
-                      label="Email"
-                      tipo="email"
-                      inputMode="email"
-                      autoComplete="email"
-                      pista="Opcional. Si lo indicas, te contestamos también por escrito."
-                      valor={v.email}
-                      onChange={f.pon("email")}
-                      onBlur={f.toca("email")}
-                      error={f.visible("email")}
                     />
                     <Opciones
                       nombre="perfil"
@@ -480,15 +494,14 @@ export default function Contact() {
                       onChange={f.pon("perfil")}
                       ancho
                     />
-                  </Bloque>
+                  </Tramo>
 
-                  <Bloque num="02" titulo="El edificio">
+                  <Tramo num="02" titulo="El edificio">
                     <Campo
                       id="zona"
                       label="Dirección o zona"
                       ancho
                       placeholder="Calle, barrio o municipio"
-                      pista="Opcional. Con la calle sabemos qué tipo de edificio es antes de subir."
                       valor={v.zona}
                       onChange={f.pon("zona")}
                     />
@@ -501,64 +514,66 @@ export default function Contact() {
                     />
                     <Adjuntos
                       id="adjuntos-contacto"
-                      label="Fotos, informe o ITE"
-                      pista="Opcional. Nos ayudan a preparar la visita."
+                      label="Fotos, informe o ITE · opcional"
                       ficheros={ficheros}
                       onCambio={setFicheros}
                     />
-                  </Bloque>
+                  </Tramo>
 
-                  <CapaRgpd
-                    id="contacto"
-                    acepto={acepto}
-                    onAcepto={(x) => {
-                      setAcepto(x);
-                      if (x) setErrorConsentimiento(undefined);
-                    }}
-                    error={errorConsentimiento}
-                    refCasilla={casilla}
-                    plazo={legal.plazoContacto}
-                    texto={`He leído la información sobre protección de datos y consiento que ${site.legalName} trate mis datos para responder a esta solicitud.`}
-                  />
-
-                  <Cajetin
-                    celdas={[
-                      { rotulo: "Documento", valor: "Visita técnica" },
-                      { rotulo: "Zona", valor: v.zona.trim() || "Madrid" },
-                      { rotulo: "Fecha", valor: hoy || "—" },
-                      { rotulo: "Respuesta", valor: site.responseTime },
-                    ]}
-                  >
-                    <Faltan
-                      campos={f.enviado ? f.faltan : []}
-                      consentimiento={f.enviado && !acepto}
-                      envio={errorEnvio}
+                  <div className="pt-2">
+                    <CapaRgpd
+                      id="contacto"
+                      acepto={acepto}
+                      onAcepto={(x) => {
+                        setAcepto(x);
+                        if (x) setErrorConsentimiento(undefined);
+                      }}
+                      error={errorConsentimiento}
+                      refCasilla={casilla}
+                      plazo={legal.plazoContacto}
+                      texto={`He leído la información sobre protección de datos y consiento que ${site.legalName} trate mis datos para responder a esta solicitud.`}
                     />
-                    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 sm:gap-5">
-                      <Boton type="submit" disabled={enviando}>
-                        {enviando ? "Enviando…" : "Solicitar visita técnica"}
-                        {!enviando && <ArrowRight size={17} aria-hidden />}
-                      </Boton>
-                      <Boton onClick={porWhatsapp} variante="contorno">
-                        <MessageCircle
-                          size={17}
-                          style={{ color: "var(--blue)" }}
-                          aria-hidden
-                        />
-                        Enviar por WhatsApp
-                      </Boton>
+
+                    <div className="mt-7">
+                      <Faltan
+                        campos={f.enviado ? f.faltan : []}
+                        consentimiento={f.enviado && !acepto}
+                        envio={errorEnvio}
+                      />
+                      <div className="grid sm:grid-cols-[1.4fr_1fr] gap-3">
+                        <Boton
+                          type="submit"
+                          disabled={enviando}
+                          className="w-full"
+                        >
+                          {enviando ? "Enviando…" : "Solicitar visita técnica"}
+                          {!enviando && <ArrowRight size={17} aria-hidden />}
+                        </Boton>
+                        <Boton
+                          onClick={porWhatsapp}
+                          variante="contorno"
+                          className="w-full"
+                        >
+                          <MessageCircle
+                            size={17}
+                            style={{ color: "var(--blue)" }}
+                            aria-hidden
+                          />
+                          Enviar por WhatsApp
+                        </Boton>
+                      </div>
                       <p
-                        className="text-t2 leading-snug max-w-[26ch] basis-full lg:basis-auto"
+                        className="text-t2 leading-snug mt-4"
                         style={{ color: "var(--ink-muted)" }}
                       >
-                        La visita técnica no se cobra, y de ella sale el
-                        presupuesto por escrito.
+                        Visita gratuita y presupuesto por escrito. Respondemos
+                        en {site.responseTime} laborables.
                       </p>
                     </div>
-                  </Cajetin>
-                </Lamina>
-              </form>
-            )}
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>

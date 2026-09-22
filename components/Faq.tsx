@@ -23,7 +23,8 @@ export const faqs = [
   },
   {
     q: "¿Trabajáis solo en Madrid capital?",
-    a: "Trabajamos en Madrid capital y toda la Comunidad. Para intervenciones de mayor alcance, valoramos el desplazamiento a otras provincias antes de confirmar la visita.",
+    a: "Trabajamos en Madrid capital y toda la Comunidad: Alcobendas, San Sebastián de los Reyes, Pozuelo, Majadahonda, Las Rozas, Getafe, Leganés, Fuenlabrada, Alcalá de Henares y el Corredor del Henares, entre otros. Para intervenciones de mayor alcance, valoramos el desplazamiento a otras provincias antes de confirmar la visita.",
+    enlace: { texto: "Ver zonas de trabajo", href: "/zonas" },
   },
   {
     q: "¿Cuánto tarda la rehabilitación de una fachada?",
@@ -39,16 +40,18 @@ export const faqs = [
   },
 ];
 
+type Faq = { q: string; a: string; enlace?: { texto: string; href: string } };
+
 export default function Faq() {
   return (
     <section
       id="preguntas"
-      className="py-24 lg:py-28"
+      className="py-16 lg:py-28"
       style={{ backgroundColor: "var(--bg-soft)" }}
     >
       <div className="pagina">
         <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-20">
-          <div>
+          <div className="lg:sticky lg:top-28 lg:self-start">
             <div className="flex items-center gap-4 mb-8">
               <span
                 className="w-10 h-px"
@@ -83,7 +86,7 @@ export default function Faq() {
           </div>
 
           <div className="flex flex-col">
-            {faqs.map((f, i) => (
+            {(faqs as readonly Faq[]).map((f, i) => (
               <details
                 key={f.q}
                 open={i === 0}
@@ -112,11 +115,22 @@ export default function Faq() {
                   </span>
                 </summary>
                 <p
-                  className="text-t3 leading-relaxed pb-6 pr-10 max-w-[62ch]"
+                  className={`text-t3 leading-relaxed pr-10 max-w-[62ch] ${
+                    f.enlace ? "pb-3" : "pb-6"
+                  }`}
                   style={{ color: "var(--ink-muted)" }}
                 >
                   {f.a}
                 </p>
+                {f.enlace && (
+                  <a
+                    href={f.enlace.href}
+                    className="inline-flex items-center gap-2 min-h-11 mb-3 text-t3 font-semibold"
+                    style={{ color: "var(--blue)" }}
+                  >
+                    {f.enlace.texto} →
+                  </a>
+                )}
               </details>
             ))}
           </div>

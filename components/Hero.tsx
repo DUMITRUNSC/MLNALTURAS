@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { BotonEnlace } from "@/components/Boton";
 import { fotos } from "@/lib/fotos";
+import { whatsappUrl } from "@/lib/site";
 
 /**
  * Portada.
@@ -17,7 +18,7 @@ export default function Hero() {
       style={{ backgroundColor: "var(--bg-soft)" }}
     >
       {/* Fachada */}
-      <div className="absolute inset-x-0 bottom-0 h-[232px] sm:h-[290px] lg:inset-0 lg:h-auto">
+      <div className="absolute inset-x-0 bottom-0 h-[290px] sm:h-[290px] lg:inset-0 lg:h-auto">
         <Image
           src={fotos.hero.src}
           alt={fotos.hero.alt}
@@ -47,18 +48,23 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 pagina">
-        <div className="flex flex-col justify-center min-h-[620px] sm:min-h-[700px] lg:min-h-[840px] pt-28 sm:pt-32 pb-[244px] sm:pb-[310px] lg:py-36 lg:max-w-[56%] xl:max-w-[52%]">
-          <div className="flex items-center gap-5 mb-9">
-            <span
-              className="w-12 h-px"
-              style={{ backgroundColor: "var(--rule)" }}
-            />
-            <p className="eyebrow" style={{ color: "var(--ink-muted)" }}>
-              Trabajos verticales · Madrid
-            </p>
-          </div>
-
-          <h1 className="mb-8">
+        <div className="flex flex-col justify-center min-h-[600px] sm:min-h-[700px] lg:min-h-[840px] pt-24 sm:pt-32 pb-[268px] sm:pb-[310px] lg:py-36 lg:max-w-[56%] xl:max-w-[52%]">
+          {/* El rótulo va DENTRO del h1: se ve igual, pero el titular que lee
+              Google lleva «Trabajos verticales en Madrid». */}
+          <h1 className="mb-6 lg:mb-8">
+            <span className="flex items-center gap-3 sm:gap-5 mb-7 sm:mb-9">
+              <span
+                className="w-7 sm:w-12 h-px shrink-0"
+                style={{ backgroundColor: "var(--rule)" }}
+                aria-hidden
+              />
+              <span
+                className="eyebrow tracking-[0.08em] sm:tracking-[0.14em]"
+                style={{ color: "var(--ink-muted)" }}
+              >
+                Trabajos verticales en Madrid
+              </span>
+            </span>{" "}
             <span
               className="h-display block text-balance"
               style={{ fontSize: "var(--d-4)", color: "var(--ink)" }}
@@ -72,24 +78,30 @@ export default function Hero() {
           </h1>
 
           <p
-            className="text-t4 lg:text-t5 leading-[1.62] max-w-[33rem] mb-11"
+            className="text-t4 lg:text-t5 leading-[1.62] max-w-[33rem] mb-8 lg:mb-11"
             style={{ color: "var(--ink-soft)" }}
           >
-            Reparamos fachadas, cubiertas y filtraciones en Madrid mediante
-            trabajos verticales cuando son la solución más eficiente.
+            Reparamos fachadas, cubiertas y filtraciones mediante trabajos
+            verticales. Sin andamio cuando no hace falta.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-6">
             <BotonEnlace href="#contacto">
-              Cuéntanos qué ocurre
+              Pedir visita gratuita
               <ArrowRight size={17} aria-hidden />
             </BotonEnlace>
+            {/* Antes los dos botones iban a #contacto. Ahora el segundo hace
+                exactamente lo que dice: abre WhatsApp. */}
             <BotonEnlace
-              href="#contacto"
+              href={whatsappUrl(
+                "Hola, os escribo desde la web de MLN. Os mando fotos del problema.",
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
               variante="texto"
               className="group sm:justify-start"
             >
-              Enviar fotos
+              Enviar fotos por WhatsApp
               <ArrowRight
                 size={17}
                 style={{ color: "var(--blue)" }}
@@ -115,12 +127,6 @@ export default function Hero() {
                 altura
               </p>
             </div>
-            <p
-              className="tecnico text-t1 pb-1"
-              style={{ color: "var(--ink-faint)" }}
-            >
-              40.4168° N — 3.7038° W
-            </p>
           </div>
         </div>
       </div>

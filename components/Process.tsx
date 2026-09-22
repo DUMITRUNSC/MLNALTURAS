@@ -17,7 +17,7 @@ const pasos = [
     num: "03",
     titulo: "Seguridad",
     desc: "Plan de seguridad y salud específico de trabajos verticales, coordinado con el edificio antes de tocar nada.",
-    nota: "Personal certificado en altura",
+    nota: "Personal formado en altura",
   },
   {
     num: "04",
@@ -28,7 +28,7 @@ const pasos = [
   {
     num: "05",
     titulo: "Entrega",
-    desc: "Repaso conjunto, limpieza de la zona, reportaje fotográfico por fases y garantía activa por escrito.",
+    desc: "Repaso conjunto, limpieza de la zona, reportaje fotográfico por fases y garantía por escrito.",
     nota: "Documentación entregada",
   },
 ];
@@ -37,7 +37,7 @@ export default function Process() {
   return (
     <section
       id="proceso"
-      className="py-28 lg:py-40"
+      className="py-16 lg:py-32"
       style={{ backgroundColor: "var(--zona-oscura)" }}
     >
       <div className="pagina">
@@ -52,7 +52,7 @@ export default function Process() {
         </div>
 
         <div
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16 lg:mb-24"
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-20"
           data-reveal
         >
           <h2
@@ -63,33 +63,28 @@ export default function Process() {
             <br />
             Ninguna improvisación.
           </h2>
-          <p
-            className="text-t4 leading-relaxed max-w-xs lg:text-right"
-            style={{ color: "var(--sobre-oscuro-suave)" }}
-          >
-            Contratar trabajos en altura es un acto de confianza. Cada fase está
-            definida antes de empezar.
-          </p>
         </div>
 
-        <ol>
+        {/* Escritorio: los cinco pasos a la vez, en cinco columnas, sin
+            pestañas: esconder cuatro textos para enseñar uno era perder.
+            Móvil: vertical y compacto, número al lado del texto. */}
+        <ol
+          className="lg:grid lg:grid-cols-5 border-t lg:border-t-0"
+          style={{ borderColor: "var(--filete-oscuro)" }}
+        >
           {pasos.map((p, i) => (
             <li
               key={p.num}
               data-reveal
-              className="grid grid-cols-1 lg:grid-cols-[minmax(0,190px)_minmax(0,1fr)_minmax(0,230px)] gap-y-4 lg:gap-x-16 py-10 lg:py-12 border-t"
-              style={{
-                borderColor: "var(--filete-oscuro)",
-                borderBottom:
-                  i === pasos.length - 1
-                    ? "1px solid var(--filete-oscuro)"
-                    : undefined,
-              }}
+              className={`grid grid-cols-[52px_minmax(0,1fr)] gap-x-4 py-6 border-b lg:flex lg:flex-col lg:py-0 lg:pt-8 lg:pb-2 lg:border-b-0 lg:border-t ${
+                i > 0 ? "lg:border-l lg:pl-7" : ""
+              } ${i < pasos.length - 1 ? "lg:pr-7" : ""}`}
+              style={{ borderColor: "var(--filete-oscuro)" }}
             >
               <span
-                className="block h-display tabular-nums leading-[0.82]"
+                className="block h-display tabular-nums leading-[0.9] lg:mb-10"
                 style={{
-                  fontSize: "var(--n-3)",
+                  fontSize: "clamp(1.9rem, 4.4vw, 4.2rem)",
                   color: "var(--sobre-oscuro-numero)",
                 }}
                 aria-hidden
@@ -97,27 +92,29 @@ export default function Process() {
                 {p.num}
               </span>
 
-              <div className="lg:pt-2">
+              <div className="min-w-0 lg:flex lg:flex-1 lg:flex-col">
                 <h3
-                  className="font-semibold tracking-[-0.02em] text-white mb-3"
+                  className="font-semibold tracking-[-0.02em] text-white mb-2 lg:mb-3"
                   style={{ fontSize: "var(--d-1)" }}
                 >
                   {p.titulo}
                 </h3>
                 <p
-                  className="text-t3 leading-[1.65] max-w-[54ch]"
+                  className="text-t3 leading-[1.62] max-w-[54ch] mb-3 lg:mb-8"
                   style={{ color: "var(--sobre-oscuro-suave)" }}
                 >
                   {p.desc}
                 </p>
+                <p
+                  className="eyebrow lg:mt-auto lg:pt-5 lg:border-t leading-[1.7]"
+                  style={{
+                    color: "var(--blue-light)",
+                    borderColor: "var(--filete-oscuro)",
+                  }}
+                >
+                  {p.nota}
+                </p>
               </div>
-
-              <p
-                className="eyebrow lg:pt-4 lg:text-right"
-                style={{ color: "var(--blue-light)" }}
-              >
-                {p.nota}
-              </p>
             </li>
           ))}
         </ol>

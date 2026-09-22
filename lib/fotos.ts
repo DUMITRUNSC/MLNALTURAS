@@ -2,6 +2,10 @@
  * Mapa único de fotografías de la web.
  *
  * Regla: UNA foto por sitio. Nada se repite en dos secciones.
+ *
+ * ⚠️ Hoy son imágenes ilustrativas, no obras de MLN. Los textos
+ * alternativos describen lo que se ve y NO lo atribuyen a MLN. Al llegar las
+ * fotos reales de obra, sustituirlas aquí y ya se pueden atribuir.
  * Para cambiar una foto, se cambia aquí y en ningún otro archivo.
  *
  * Ocupación actual (10 de 10 huecos):
@@ -21,7 +25,7 @@
 export const fotos = {
   hero: {
     src: "/fachada-madrid-dos-tecnicos.jpg",
-    alt: "Dos técnicos de MLN descolgados por cuerda en la fachada de un edificio de Madrid, con la cúpula del Metrópolis y el perfil de la ciudad al fondo",
+    alt: "Dos técnicos descolgados por cuerda en la fachada de un edificio de Madrid, con la cúpula del Metrópolis y el perfil de la ciudad al fondo",
   },
   s01Fachadas: {
     src: "/sellado-junta-fachada.jpg",
@@ -53,7 +57,7 @@ export const fotos = {
   },
   empresa: {
     src: "/fachada-ladrillo.jpg",
-    alt: "Técnico de MLN trabajando descolgado sobre una fachada de ladrillo en Madrid",
+    alt: "Técnico trabajando descolgado sobre una fachada de ladrillo en Madrid",
   },
   empleo: {
     src: "/terraza-baldosas.jpg",

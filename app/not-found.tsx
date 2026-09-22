@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 const secciones = [
   ["/#servicios", "Servicios"],
-  ["/#administradores", "Administradores de fincas"],
-  ["/#arquitectos", "Arquitectos e ingenieros"],
+  ["/administradores", "Administradores de fincas"],
+  ["/arquitectos", "Arquitectos e ingenieros"],
   ["/#preguntas", "Preguntas frecuentes"],
   ["/#contacto", "Contacto"],
   ["/trabaja-con-nosotros", "Trabaja con nosotros"],

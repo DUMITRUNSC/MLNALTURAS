@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         width: 1536,
         height: 1024,
         type: "image/jpeg",
-        alt: "Técnico de MLN trabajando por cuerda en una fachada de Madrid",
+        alt: "Técnico trabajando por cuerda en una fachada de Madrid",
       },
     ],
   },
@@ -39,7 +39,7 @@ export default function Privacidad() {
       <Header />
       <LegalLayout
         ruta="/privacidad"
-        marcador="Legal "
+        marcador="Documentos legales"
         titulo="Política de privacidad"
         entradilla="Esta es la información ampliada sobre el tratamiento de datos personales en esta web. Está redactada sobre los artículos 13 y 15 a 22 del Reglamento (UE) 2016/679 y la Ley Orgánica 3/2018 (LOPDGDD)."
       >

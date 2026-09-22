@@ -1,17 +1,21 @@
 "use client";
 
 import { ArrowRight, Menu, MessageCircle, Phone, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { site, whatsappUrl } from "@/lib/site";
 
 const navLinks = [
   { label: "Servicios", href: "/#servicios", id: "servicios" },
+  // Páginas propias. El id sigue sirviendo: en la portada se resalta al
+  // pasar por su teaser, y en su página, por la ruta.
   {
     label: "Administradores",
-    href: "/#administradores",
+    href: "/administradores",
     id: "administradores",
   },
-  { label: "Arquitectos", href: "/#arquitectos", id: "arquitectos" },
+  { label: "Arquitectos", href: "/arquitectos", id: "arquitectos" },
+  { label: "Zonas", href: "/zonas", id: "zonas" },
   { label: "Empresa", href: "/#empresa", id: "empresa" },
   { label: "Contacto", href: "/#contacto", id: "contacto" },
 ];
@@ -26,6 +30,7 @@ export default function Header() {
   const primerEnlace = useRef<HTMLAnchorElement>(null);
   const huboMenu = useRef(false);
   const [active, setActive] = useState<string | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -79,22 +84,24 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4">
+    /* En móvil va pegada arriba, de borde a borde, con fondo sólido: la
+       tarjeta flotante translúcida se veía como un recuadro gris cuando
+       pasaba por encima de las secciones oscuras. En escritorio se queda
+       como estaba. */
+    <header className="fixed top-0 left-0 right-0 z-50 lg:px-8 lg:pt-4">
       <div
-        className="w-full mx-auto transition-all duration-300"
+        className="w-full mx-auto border-b lg:border-b-0 transition-all duration-300"
         style={{
           maxWidth: "var(--ancho-pagina)",
-          backgroundColor: scrolled
-            ? "var(--cabecera-fija)"
-            : "var(--cabecera)",
-          backdropFilter: "blur(14px)",
+          backgroundColor: "var(--white)",
+          borderColor: "var(--line)",
           boxShadow: scrolled ? "var(--sombra-media)" : "var(--sombra-suave)",
         }}
       >
-        <div className="flex items-center justify-between gap-5 h-[64px] px-5 sm:px-7">
+        <div className="flex items-center justify-between gap-5 h-[56px] lg:h-[64px] px-4 sm:px-6 lg:px-7">
           <a
             href="/"
-            className="flex items-baseline gap-3 shrink-0 h-11 pt-3 transition-opacity duration-150 hover:opacity-70"
+            className="flex items-baseline gap-2.5 sm:gap-3 shrink-0 transition-opacity duration-150 hover:opacity-70"
             aria-label="MLN Altura Madrid, ir al inicio"
           >
             <span
@@ -104,7 +111,7 @@ export default function Header() {
               MLN
             </span>
             <span
-              className="hidden sm:block text-t1 font-medium tracking-[0.28em] uppercase leading-none"
+              className="text-t1 font-medium tracking-[0.18em] sm:tracking-[0.28em] uppercase leading-none"
               style={{ color: "var(--ink-muted)" }}
             >
               Altura Madrid
@@ -116,7 +123,9 @@ export default function Header() {
             aria-label="Secciones"
           >
             {navLinks.map((link) => {
-              const isActive = active === link.id;
+              const isActive =
+                (pathname === "/" && active === link.id) ||
+                pathname === link.href;
               return (
                 <a
                   key={link.href}
@@ -151,17 +160,14 @@ export default function Header() {
           <div className="flex items-center gap-2 sm:gap-4">
             <a
               href={`tel:${site.phone}`}
-              className="inline-flex items-center justify-center sm:justify-start gap-2 h-11 w-11 sm:h-auto sm:w-auto sm:px-0 text-t2 font-semibold -mr-1 sm:mr-0"
+              className="hidden lg:inline-flex items-center gap-2 text-t2 font-semibold"
               style={{ color: "var(--ink)" }}
               aria-label={`Llamar al ${site.phoneDisplay}`}
             >
-              <Phone
-                size={18}
-                className="sm:w-[15px] sm:h-[15px]"
-                style={{ color: "var(--blue)" }}
-                aria-hidden
-              />
-              <span className="hidden sm:inline">{site.phoneDisplay}</span>
+              {/* Por debajo de lg no se pinta: la barra fija de abajo ya da
+                  Llamar, y era el mismo botón dos veces. */}
+              <Phone size={15} style={{ color: "var(--blue)" }} aria-hidden />
+              <span>{site.phoneDisplay}</span>
             </a>
 
             <a
@@ -210,7 +216,6 @@ export default function Header() {
               {[
                 { label: "Inicio", href: "/", id: "inicio" },
                 ...navLinks,
-                { label: "Zonas de trabajo", href: "/#zonas", id: "zonas" },
                 { ...enlaceEmpleo, id: "empleo" },
                 {
                   label: "Preguntas frecuentes",

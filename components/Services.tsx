@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { fotos } from "@/lib/fotos";
 import { servicios } from "@/lib/servicios";
+import { whatsappUrl } from "@/lib/site";
 
 /**
  * Dónde está cada servicio en un edificio de verdad.
@@ -29,7 +30,7 @@ export default function Services() {
   return (
     <section
       id="servicios"
-      className="py-28 lg:py-40"
+      className="py-16 lg:py-32"
       style={{ backgroundColor: "var(--white)" }}
     >
       <div className="pagina">
@@ -44,7 +45,7 @@ export default function Services() {
         </div>
 
         <div
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16 lg:mb-20"
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-20"
           data-reveal
         >
           <h2
@@ -72,11 +73,15 @@ export default function Services() {
               const esta = i === activo;
               return (
                 <li key={s.num}>
-                  <a
-                    href="#contacto"
+                  {/* Fila de índice, no enlace: antes las seis llevaban al
+                      formulario y prometían un detalle que no había. Cuando
+                      existan las páginas de servicio, cada fila enlazará a la
+                      suya. Con teclado, los marcadores de la foto hacen lo
+                      mismo que pasar el ratón. */}
+                  {/* biome-ignore lint/a11y/noStaticElementInteractions: el resaltado al pasar el ratón es un atajo visual; el camino accesible son los marcadores, que son <button> */}
+                  <div
                     onMouseEnter={() => setActivo(i)}
-                    onFocus={() => setActivo(i)}
-                    className="group grid grid-cols-[auto_1fr_auto] lg:grid-cols-[56px_1fr_auto] items-center gap-x-4 sm:gap-x-6 gap-y-3 py-7 lg:py-8 border-t transicion-color duration-300"
+                    className="group grid grid-cols-[34px_minmax(0,1fr)_auto] lg:grid-cols-[56px_1fr_auto] items-start lg:items-center gap-x-4 sm:gap-x-6 gap-y-2 lg:gap-y-3 py-5 lg:py-8 border-t transicion-color duration-300"
                     style={{
                       borderColor: esta ? "var(--blue)" : "var(--line)",
                       borderBottom:
@@ -86,7 +91,7 @@ export default function Services() {
                     }}
                   >
                     <span
-                      className="tecnico text-t1 font-semibold self-start lg:self-center pt-1 lg:pt-0 transicion-color duration-300"
+                      className="tecnico text-t1 font-semibold col-start-1 row-start-1 lg:row-span-2 self-start lg:self-center pt-1 lg:pt-0 transicion-color duration-300"
                       style={{
                         color: esta ? "var(--blue)" : "var(--ink-faint)",
                       }}
@@ -94,31 +99,22 @@ export default function Services() {
                       {s.num}
                     </span>
 
-                    <span className="min-w-0 transition-transform duration-300 ease-out lg:group-hover:translate-x-[6px]">
+                    <span className="min-w-0 col-start-2 row-start-1 transition-transform duration-300 ease-out lg:group-hover:translate-x-[6px]">
                       {/* h3 y no un span: es el nombre del servicio, y es lo que
                           un buscador lee como contenido de la sección. */}
                       <h3
-                        className="font-semibold tracking-[-0.025em] mb-1.5 transicion-color duration-300"
+                        className="text-t5 lg:text-[length:var(--d-1)] font-semibold tracking-[-0.02em] mb-1.5 transicion-color duration-300"
                         style={{
-                          fontSize: "var(--d-1)",
                           color: esta ? "var(--blue)" : "var(--ink)",
                         }}
                       >
                         {s.titulo}
                       </h3>
-                      {/* Legible en reposo: antes iba al 60 % y solo se leía
-                          al pasar el ratón (contraste 2,6:1). */}
-                      <span
-                        className="block text-t3 leading-relaxed max-w-[46ch]"
-                        style={{ color: "var(--ink-muted)" }}
-                      >
-                        {s.desc}
-                      </span>
                     </span>
 
-                    {/* Miniatura solo en móvil */}
+                    {/* Miniatura solo en móvil, a la altura del título */}
                     <span
-                      className="lg:hidden relative block w-[86px] sm:w-[104px] aspect-[4/3] overflow-hidden self-start"
+                      className="lg:hidden relative block col-start-3 row-start-1 w-[86px] sm:w-[104px] aspect-[4/3] overflow-hidden self-start"
                       style={{ backgroundColor: "var(--bg-soft)" }}
                     >
                       <Image
@@ -131,13 +127,16 @@ export default function Services() {
                       />
                     </span>
 
-                    <ArrowRight
-                      size={20}
-                      aria-hidden
-                      className="hidden lg:block transition-transform duration-300 ease-out group-hover:translate-x-[8px]"
-                      style={{ color: "var(--blue)" }}
-                    />
-                  </a>
+                    {/* La descripción ocupa todo el ancho: encajonada entre el
+                        número y la miniatura salían siete líneas por servicio.
+                        Legible en reposo, no solo al pasar el ratón. */}
+                    <span
+                      className="col-start-1 col-span-3 lg:col-start-2 lg:col-span-1 row-start-2 block text-t3 leading-relaxed max-w-[46ch]"
+                      style={{ color: "var(--ink-muted)" }}
+                    >
+                      {s.desc}
+                    </span>
+                  </div>
                 </li>
               );
             })}
@@ -228,20 +227,38 @@ export default function Services() {
           </div>
         </div>
 
-        <p
-          className="mt-12 text-t3 leading-relaxed max-w-[72ch]"
-          style={{ color: "var(--ink-muted)" }}
+        {/* Una sola banda: lo que no cabe en el índice, dicho en una línea. */}
+        <div
+          className="mt-10 lg:mt-14 pt-6 border-t flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-8"
+          style={{ borderColor: "var(--line)" }}
         >
-          También resolvemos humedades por fachada, limpieza técnica de
-          cristaleras y placas solares, antigraffiti y mantenimiento preventivo.{" "}
+          <p className="text-t3 font-semibold" style={{ color: "var(--ink)" }}>
+            ¿No encuentras tu problema?
+          </p>
+          <p
+            className="tecnico text-t1 uppercase tracking-[0.12em] leading-[1.9] lg:flex-1"
+            style={{ color: "var(--ink-muted)" }}
+          >
+            Humedades · Cristaleras · Placas solares · Antigraffiti ·
+            Mantenimiento
+          </p>
           <a
-            href="#contacto"
-            className="font-semibold"
+            href={whatsappUrl(
+              "Hola, os escribo desde la web de MLN. Os mando fotos del problema.",
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 min-h-11 text-t3 font-semibold"
             style={{ color: "var(--blue)" }}
           >
-            ¿No ves tu problema? Envíanos unas fotos →
+            Envíanos unas fotos
+            <ArrowRight
+              size={17}
+              aria-hidden
+              className="transition-transform duration-200 group-hover:translate-x-[6px]"
+            />
           </a>
-        </p>
+        </div>
       </div>
     </section>
   );
